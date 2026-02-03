@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Plus, Edit, Trash2, Search } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -6,6 +7,7 @@ import { useProducts } from '@/hooks/useProducts';
 import { formatCurrency } from '@/lib/utils';
 
 export default function AdminProductsPage() {
+  const navigate = useNavigate();
   const { data: products, isLoading } = useProducts({});
   const [searchQuery, setSearchQuery] = useState('');
 
@@ -17,7 +19,7 @@ export default function AdminProductsPage() {
     <div>
       <div className="flex items-center justify-between mb-8">
         <h1 className="text-3xl font-display font-bold">Products</h1>
-        <Button className="btn-accent gap-2">
+        <Button className="btn-accent gap-2" onClick={() => navigate('/admin/products/new')}>
           <Plus className="h-4 w-4" /> Add Product
         </Button>
       </div>

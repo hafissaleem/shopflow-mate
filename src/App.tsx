@@ -24,6 +24,7 @@ import OrdersPage from "@/pages/dashboard/OrdersPage";
 // Admin Pages
 import AdminDashboard from "@/pages/admin/AdminDashboard";
 import AdminProductsPage from "@/pages/admin/AdminProductsPage";
+import AddProductPage from "@/pages/admin/AddProductPage";
 import AdminOrdersPage from "@/pages/admin/AdminOrdersPage";
 
 import NotFound from "./pages/NotFound";
@@ -79,6 +80,7 @@ const App = () => (
               <Route path="/admin" element={<ProtectedRoute adminOnly><AdminLayout /></ProtectedRoute>}>
                 <Route index element={<AdminDashboard />} />
                 <Route path="products" element={<AdminProductsPage />} />
+                <Route path="products/new" element={<AddProductPage />} />
                 <Route path="orders" element={<AdminOrdersPage />} />
               </Route>
 
