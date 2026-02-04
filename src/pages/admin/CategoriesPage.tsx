@@ -3,6 +3,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Trash2, Plus } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
 
 interface Category {
   id: string;
@@ -18,6 +19,7 @@ export default function CategoriesPage() {
   const [name, setName] = useState("");
   const [loading, setLoading] = useState(false);
   const [isAdding, setIsAdding] = useState(false);
+  const { toast } = useToast();
 
   const fetchCategories = async () => {
     setLoading(true);
@@ -28,6 +30,11 @@ export default function CategoriesPage() {
     setLoading(false);
     if (error) {
       console.error("Error fetching categories:", error.message);
+      toast({
+        title: "Error",
+        description: "Failed to load categories",
+        variant: "destructive",
+      });
       return;
     }
     setCategories(data || []);
@@ -45,28 +52,58 @@ export default function CategoriesPage() {
   };
 
   const handleAddCategory = async () => {
-    if (!name.trim()) return;
+    if (!name.trim()) {
+      toast({
+        title: "Validation Error",
+        description: "Please enter a category name",
+        variant: "destructive",
+      });
+      return;
+    }
+    
     setIsAdding(true);
     const slug = generateSlug(name);
     const { error } = await supabase
       .from("categories")
       .insert([{ name: name.trim(), slug }]);
     setIsAdding(false);
+    
     if (error) {
       console.error("Error adding category:", error.message);
+      toast({
+        title: "Error",
+        description: error.message || "Failed to add category",
+        variant: "destructive",
+      });
       return;
     }
+    
+    toast({
+      title: "Success",
+      description: `Category "${name}" added successfully`,
+    });
     setName("");
     fetchCategories();
   };
 
-  const handleDelete = async (id: string) => {
-    if (!confirm("Are you sure you want to delete this category?")) return;
+  const handleDelete = async (id: string, categoryName: string) => {
+    if (!confirm(`Are you sure you want to delete "${categoryName}"?`)) return;
+    
     const { error } = await supabase.from("categories").delete().eq("id", id);
     if (error) {
       console.error("Error deleting category:", error.message);
+      toast({
+        title: "Error",
+        description: error.message || "Failed to delete category",
+        variant: "destructive",
+      });
       return;
     }
+    
+    toast({
+      title: "Deleted",
+      description: `Category "${categoryName}" has been deleted`,
+    });
     fetchCategories();
   };
 
@@ -119,7 +156,7 @@ export default function CategoriesPage() {
                   variant="ghost"
                   size="icon"
                   className="text-destructive hover:text-destructive"
-                  onClick={() => handleDelete(cat.id)}
+                  onClick={() => handleDelete(cat.id, cat.name)}
                 >
                   <Trash2 className="h-4 w-4" />
                 </Button>
