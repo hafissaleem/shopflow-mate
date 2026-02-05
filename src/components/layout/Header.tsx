@@ -41,17 +41,17 @@ export function Header() {
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden gap-[35px] lg:flex items-center justify-start">
+          <nav className="hidden lg:flex items-center gap-[35px]">
             <Link to="/products" className="font-medium text-foreground/80 hover:text-foreground transition-colors text-base">
               All Products
             </Link>
-            <Link to="/products?category=electronics" className="font-medium text-foreground/80 hover:text-foreground transition-colors text-base">
+            <Link to="/products?category=electronics" className="text-sm font-medium text-foreground/80 hover:text-foreground transition-colors">
               Electronics
             </Link>
-            <Link to="/products?category=fashion" className="font-medium text-foreground/80 hover:text-foreground transition-colors text-base">
+            <Link to="/products?category=fashion" className="text-sm font-medium text-foreground/80 hover:text-foreground transition-colors">
               Fashion
             </Link>
-            <Link to="/products?category=home" className="font-medium text-foreground/80 hover:text-foreground transition-colors text-base">
+            <Link to="/products?category=home" className="text-sm font-medium text-foreground/80 hover:text-foreground transition-colors">
               Home & Living
             </Link>
           </nav>
