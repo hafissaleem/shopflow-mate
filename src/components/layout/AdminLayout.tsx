@@ -45,8 +45,7 @@ export function AdminLayout() {
       <header className="lg:hidden sticky top-0 z-50 bg-sidebar border-b border-sidebar-border">
         <div className="flex items-center justify-between px-4 h-16">
           <Link to="/admin" className="flex items-center gap-2">
-            <span className="text-xl font-display font-bold text-sidebar-foreground">LUXE</span>
-            <span className="text-xs font-medium text-sidebar-primary uppercase tracking-widest">Admin</span>
+             <span className="text-lg font-display font-bold text-sidebar-foreground">Hasna Cycle Center</span>
           </Link>
           <Button
             variant="ghost"
@@ -64,8 +63,7 @@ export function AdminLayout() {
         <aside className="hidden lg:flex flex-col w-64 min-h-screen bg-sidebar border-r border-sidebar-border fixed left-0 top-0">
           <div className="p-6 border-b border-sidebar-border">
             <Link to="/admin" className="flex items-center gap-2">
-              <span className="text-2xl font-display font-bold text-sidebar-foreground">LUXE</span>
-              <span className="text-xs font-medium text-sidebar-primary uppercase tracking-widest">Admin</span>
+               <span className="text-xl font-display font-bold text-sidebar-foreground">Hasna Cycle Center</span>
             </Link>
           </div>
 

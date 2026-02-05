@@ -41,10 +41,7 @@ export function Header() {
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2">
             <span className="text-2xl font-display font-bold text-foreground">
-              LUXE
-            </span>
-            <span className="text-xs font-medium text-accent uppercase tracking-widest">
-              Store
+               Hasna Cycle Center
             </span>
           </Link>
 
