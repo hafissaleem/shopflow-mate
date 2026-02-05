@@ -45,7 +45,7 @@ export function Header() {
             <Link to="/products" className="font-medium text-foreground/80 hover:text-foreground transition-colors text-base">
               All Products
             </Link>
-            <Link to="/products?category=electronics" className="text-sm font-medium text-foreground/80 hover:text-foreground transition-colors">
+            <Link to="/products?category=electronics" className="font-medium text-foreground/80 hover:text-foreground transition-colors text-base">
               Electronics
             </Link>
             <Link to="/products?category=fashion" className="text-sm font-medium text-foreground/80 hover:text-foreground transition-colors">
