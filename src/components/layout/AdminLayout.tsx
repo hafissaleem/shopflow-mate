@@ -10,7 +10,7 @@ import {
   Menu,
   X,
   Wallet,
-  Layers
+   Layers,
 } from 'lucide-react';
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -25,7 +25,6 @@ const navItems = [
   { icon: ShoppingCart, label: 'Orders', href: '/admin/orders' },
   { icon: Wallet, label: 'Payments', href: '/admin/payments' },
   { icon: Users, label: 'Customers', href: '/admin/customers' },
-  { icon: Tag, label: 'Coupons', href: '/admin/coupons' },
   { icon: Settings, label: 'Settings', href: '/admin/settings' },
 ];
 
