@@ -36,8 +36,7 @@ export function Footer() {
           {/* Brand */}
           <div>
             <Link to="/" className="inline-flex items-center gap-2 mb-4">
-              <span className="text-2xl font-display font-bold">LUXE</span>
-              <span className="text-xs font-medium text-accent uppercase tracking-widest">Store</span>
+               <span className="text-2xl font-display font-bold">Hasna Cycle Center</span>
             </Link>
             <p className="text-primary-foreground/70 text-sm mb-4">
               Discover premium products curated for the modern lifestyle. Quality meets elegance.
@@ -131,8 +130,8 @@ export function Footer() {
               </li>
               <li className="flex items-center gap-3">
                 <Mail className="h-5 w-5 text-accent flex-shrink-0" />
-                <a href="mailto:support@luxestore.com" className="text-primary-foreground/70 hover:text-white text-sm transition-colors">
-                  support@luxestore.com
+                 <a href="mailto:support@hasnacyclecenter.com" className="text-primary-foreground/70 hover:text-white text-sm transition-colors">
+                   support@hasnacyclecenter.com
                 </a>
               </li>
             </ul>
@@ -145,7 +144,7 @@ export function Footer() {
         <div className="container mx-auto px-4 py-6">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <p className="text-primary-foreground/50 text-sm">
-              © {new Date().getFullYear()} LUXE Store. All rights reserved.
+               © {new Date().getFullYear()} Hasna Cycle Center. All rights reserved.
             </p>
             <div className="flex gap-6">
               <a href="#" className="text-primary-foreground/50 hover:text-white text-sm transition-colors">

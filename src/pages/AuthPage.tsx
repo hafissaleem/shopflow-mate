@@ -148,8 +148,7 @@ export default function AuthPage() {
           {/* Logo */}
           <div className="mb-8">
             <Link to="/" className="inline-flex items-center gap-2">
-              <span className="text-3xl font-display font-bold">LUXE</span>
-              <span className="text-xs font-medium text-accent uppercase tracking-widest">Store</span>
+               <span className="text-2xl font-display font-bold">Hasna Cycle Center</span>
             </Link>
           </div>
 
@@ -328,7 +327,7 @@ export default function AuthPage() {
         <div className="absolute inset-0 flex items-center justify-center p-12">
           <div className="text-center text-white">
             <h2 className="text-4xl font-display font-bold mb-4">
-              Welcome to LUXE Store
+               Welcome to Hasna Cycle Center
             </h2>
             <p className="text-lg text-white/80 max-w-md">
               Discover premium products curated for the modern lifestyle. 
