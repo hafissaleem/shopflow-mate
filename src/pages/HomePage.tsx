@@ -316,10 +316,6 @@ export default function HomePage() {
       </section>
 
       {/* CTA Banner */}
-      <section className="py-16 lg:py-24 bg-primary text-primary-foreground">
-        <div className="container mx-auto px-4 text-center">
-          
-        </div>
-      </section>
+      
     </div>;
 }
