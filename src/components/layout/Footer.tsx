@@ -2,32 +2,11 @@ import { Link } from 'react-router-dom';
 import { Mail, Phone, MapPin, Facebook, Twitter, Instagram, Youtube } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-
 export function Footer() {
-  return (
-    <footer className="bg-primary text-primary-foreground">
+  return <footer className="bg-primary text-primary-foreground">
       {/* Newsletter Section */}
       <div className="border-b border-white/10">
-        <div className="container mx-auto px-4 py-12">
-          <div className="max-w-2xl mx-auto text-center">
-            <h3 className="text-2xl font-display font-semibold mb-2">
-              Subscribe to Our Newsletter
-            </h3>
-            <p className="text-primary-foreground/70 mb-6">
-              Get the latest updates on new arrivals and exclusive offers
-            </p>
-            <form className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
-              <Input
-                type="email"
-                placeholder="Enter your email"
-                className="flex-1 bg-white/10 border-white/20 text-white placeholder:text-white/50"
-              />
-              <Button className="btn-accent whitespace-nowrap">
-                Subscribe
-              </Button>
-            </form>
-          </div>
-        </div>
+        
       </div>
 
       {/* Main Footer */}
@@ -157,6 +136,5 @@ export function Footer() {
           </div>
         </div>
       </div>
-    </footer>
-  );
+    </footer>;
 }
