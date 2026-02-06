@@ -10,18 +10,26 @@ import {
   Menu,
   X,
   Wallet,
-   Layers,
+  Layers,
 } from 'lucide-react';
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { useAuth } from '@/hooks/useAuth';
 import { cn } from '@/lib/utils';
+import { CategoriesPanel } from '@/components/admin/CategoriesPanel';
 
-const navItems = [
+interface NavItem {
+  icon: React.ComponentType<{ className?: string }>;
+  label: string;
+  href?: string;
+  action?: string;
+}
+
+const navItems: NavItem[] = [
   { icon: LayoutDashboard, label: 'Dashboard', href: '/admin' },
   { icon: Package, label: 'Products', href: '/admin/products' },
-  { icon: Layers, label: 'Categories', href: '/admin/categories' },
+  { icon: Layers, label: 'Categories', action: 'open-categories' },
   { icon: ShoppingCart, label: 'Orders', href: '/admin/orders' },
   { icon: Wallet, label: 'Payments', href: '/admin/payments' },
   { icon: Users, label: 'Customers', href: '/admin/customers' },
@@ -30,6 +38,7 @@ const navItems = [
 
 export function AdminLayout() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [isCategoriesPanelOpen, setIsCategoriesPanelOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
   const { signOut, user } = useAuth();
@@ -37,6 +46,15 @@ export function AdminLayout() {
   const handleSignOut = async () => {
     await signOut();
     navigate('/');
+  };
+
+  const handleNavClick = (item: NavItem) => {
+    if (item.action === 'open-categories') {
+      setIsCategoriesPanelOpen(true);
+      setIsSidebarOpen(false);
+    } else if (item.href) {
+      navigate(item.href);
+    }
   };
 
   return (
@@ -69,19 +87,35 @@ export function AdminLayout() {
 
           <nav className="flex-1 p-4 space-y-1">
             {navItems.map((item) => (
-              <Link
-                key={item.href}
-                to={item.href}
-                className={cn(
-                  "flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-colors",
-                  location.pathname === item.href
-                    ? "bg-sidebar-accent text-sidebar-primary"
-                    : "text-sidebar-foreground/70 hover:text-sidebar-foreground hover:bg-sidebar-accent/50"
-                )}
-              >
-                <item.icon className="h-5 w-5" />
-                {item.label}
-              </Link>
+              item.href ? (
+                <Link
+                  key={item.label}
+                  to={item.href}
+                  className={cn(
+                    "flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-colors",
+                    location.pathname === item.href
+                      ? "bg-sidebar-accent text-sidebar-primary"
+                      : "text-sidebar-foreground/70 hover:text-sidebar-foreground hover:bg-sidebar-accent/50"
+                  )}
+                >
+                  <item.icon className="h-5 w-5" />
+                  {item.label}
+                </Link>
+              ) : (
+                <button
+                  key={item.label}
+                  onClick={() => handleNavClick(item)}
+                  className={cn(
+                    "flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-colors w-full text-left",
+                    isCategoriesPanelOpen && item.action === 'open-categories'
+                      ? "bg-sidebar-accent text-sidebar-primary"
+                      : "text-sidebar-foreground/70 hover:text-sidebar-foreground hover:bg-sidebar-accent/50"
+                  )}
+                >
+                  <item.icon className="h-5 w-5" />
+                  {item.label}
+                </button>
+              )
             ))}
           </nav>
 
@@ -136,20 +170,36 @@ export function AdminLayout() {
               >
                 <nav className="p-4 space-y-1">
                   {navItems.map((item) => (
-                    <Link
-                      key={item.href}
-                      to={item.href}
-                      onClick={() => setIsSidebarOpen(false)}
-                      className={cn(
-                        "flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-colors",
-                        location.pathname === item.href
-                          ? "bg-sidebar-accent text-sidebar-primary"
-                          : "text-sidebar-foreground/70 hover:text-sidebar-foreground hover:bg-sidebar-accent/50"
-                      )}
-                    >
-                      <item.icon className="h-5 w-5" />
-                      {item.label}
-                    </Link>
+                    item.href ? (
+                      <Link
+                        key={item.label}
+                        to={item.href}
+                        onClick={() => setIsSidebarOpen(false)}
+                        className={cn(
+                          "flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-colors",
+                          location.pathname === item.href
+                            ? "bg-sidebar-accent text-sidebar-primary"
+                            : "text-sidebar-foreground/70 hover:text-sidebar-foreground hover:bg-sidebar-accent/50"
+                        )}
+                      >
+                        <item.icon className="h-5 w-5" />
+                        {item.label}
+                      </Link>
+                    ) : (
+                      <button
+                        key={item.label}
+                        onClick={() => handleNavClick(item)}
+                        className={cn(
+                          "flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-colors w-full text-left",
+                          isCategoriesPanelOpen && item.action === 'open-categories'
+                            ? "bg-sidebar-accent text-sidebar-primary"
+                            : "text-sidebar-foreground/70 hover:text-sidebar-foreground hover:bg-sidebar-accent/50"
+                        )}
+                      >
+                        <item.icon className="h-5 w-5" />
+                        {item.label}
+                      </button>
+                    )
                   ))}
                 </nav>
                 <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-sidebar-border">
@@ -173,6 +223,12 @@ export function AdminLayout() {
             <Outlet />
           </div>
         </main>
+
+        {/* Categories Panel */}
+        <CategoriesPanel 
+          open={isCategoriesPanelOpen} 
+          onOpenChange={setIsCategoriesPanelOpen} 
+        />
       </div>
     </div>
   );
