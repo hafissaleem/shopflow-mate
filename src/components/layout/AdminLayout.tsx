@@ -1,53 +1,61 @@
 import { Outlet, Link, useLocation, useNavigate } from 'react-router-dom';
-import { 
-  LayoutDashboard, 
-  Package, 
-  ShoppingCart, 
-  Users, 
-  Tag, 
-  Settings,
-  LogOut,
-  Menu,
-  X,
-  Wallet,
-  Layers,
-} from 'lucide-react';
+import { LayoutDashboard, Package, ShoppingCart, Users, Tag, Settings, LogOut, Menu, X, Wallet, Layers } from 'lucide-react';
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { useAuth } from '@/hooks/useAuth';
 import { cn } from '@/lib/utils';
 import { CategoriesPanel } from '@/components/admin/CategoriesPanel';
-
 interface NavItem {
-  icon: React.ComponentType<{ className?: string }>;
+  icon: React.ComponentType<{
+    className?: string;
+  }>;
   label: string;
   href?: string;
   action?: string;
 }
-
-const navItems: NavItem[] = [
-  { icon: LayoutDashboard, label: 'Dashboard', href: '/admin' },
-  { icon: Package, label: 'Products', href: '/admin/products' },
-  { icon: Layers, label: 'Categories', action: 'open-categories' },
-  { icon: ShoppingCart, label: 'Orders', href: '/admin/orders' },
-  { icon: Wallet, label: 'Payments', href: '/admin/payments' },
-  { icon: Users, label: 'Customers', href: '/admin/customers' },
-  { icon: Settings, label: 'Settings', href: '/admin/settings' },
-];
-
+const navItems: NavItem[] = [{
+  icon: LayoutDashboard,
+  label: 'Dashboard',
+  href: '/admin'
+}, {
+  icon: Package,
+  label: 'Products',
+  href: '/admin/products'
+}, {
+  icon: Layers,
+  label: 'Categories',
+  action: 'open-categories'
+}, {
+  icon: ShoppingCart,
+  label: 'Orders',
+  href: '/admin/orders'
+}, {
+  icon: Wallet,
+  label: 'Payments',
+  href: '/admin/payments'
+}, {
+  icon: Users,
+  label: 'Customers',
+  href: '/admin/customers'
+}, {
+  icon: Settings,
+  label: 'Settings',
+  href: '/admin/settings'
+}];
 export function AdminLayout() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isCategoriesPanelOpen, setIsCategoriesPanelOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
-  const { signOut, user } = useAuth();
-
+  const {
+    signOut,
+    user
+  } = useAuth();
   const handleSignOut = async () => {
     await signOut();
     navigate('/');
   };
-
   const handleNavClick = (item: NavItem) => {
     if (item.action === 'open-categories') {
       setIsCategoriesPanelOpen(true);
@@ -56,21 +64,14 @@ export function AdminLayout() {
       navigate(item.href);
     }
   };
-
-  return (
-    <div className="min-h-screen bg-background">
+  return <div className="min-h-screen bg-background">
       {/* Mobile Header */}
       <header className="lg:hidden sticky top-0 z-50 bg-sidebar border-b border-sidebar-border">
         <div className="flex items-center justify-between px-4 h-16">
           <Link to="/admin" className="flex items-center gap-2">
-             <span className="text-lg font-display font-bold text-sidebar-foreground">Hasna Cycle Center</span>
+             <span className="font-display font-bold text-sidebar-foreground text-5xl text-center">Hasna Cycle Center</span>
           </Link>
-          <Button
-            variant="ghost"
-            size="icon"
-            className="text-sidebar-foreground"
-            onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-          >
+          <Button variant="ghost" size="icon" className="text-sidebar-foreground" onClick={() => setIsSidebarOpen(!isSidebarOpen)}>
             {isSidebarOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
           </Button>
         </div>
@@ -86,37 +87,13 @@ export function AdminLayout() {
           </div>
 
           <nav className="flex-1 p-4 space-y-1">
-            {navItems.map((item) => (
-              item.href ? (
-                <Link
-                  key={item.label}
-                  to={item.href}
-                  className={cn(
-                    "flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-colors",
-                    location.pathname === item.href
-                      ? "bg-sidebar-accent text-sidebar-primary"
-                      : "text-sidebar-foreground/70 hover:text-sidebar-foreground hover:bg-sidebar-accent/50"
-                  )}
-                >
+            {navItems.map(item => item.href ? <Link key={item.label} to={item.href} className={cn("flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-colors", location.pathname === item.href ? "bg-sidebar-accent text-sidebar-primary" : "text-sidebar-foreground/70 hover:text-sidebar-foreground hover:bg-sidebar-accent/50")}>
                   <item.icon className="h-5 w-5" />
                   {item.label}
-                </Link>
-              ) : (
-                <button
-                  key={item.label}
-                  onClick={() => handleNavClick(item)}
-                  className={cn(
-                    "flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-colors w-full text-left",
-                    isCategoriesPanelOpen && item.action === 'open-categories'
-                      ? "bg-sidebar-accent text-sidebar-primary"
-                      : "text-sidebar-foreground/70 hover:text-sidebar-foreground hover:bg-sidebar-accent/50"
-                  )}
-                >
+                </Link> : <button key={item.label} onClick={() => handleNavClick(item)} className={cn("flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-colors w-full text-left", isCategoriesPanelOpen && item.action === 'open-categories' ? "bg-sidebar-accent text-sidebar-primary" : "text-sidebar-foreground/70 hover:text-sidebar-foreground hover:bg-sidebar-accent/50")}>
                   <item.icon className="h-5 w-5" />
                   {item.label}
-                </button>
-              )
-            ))}
+                </button>)}
           </nav>
 
           <div className="p-4 border-t border-sidebar-border">
@@ -135,11 +112,7 @@ export function AdminLayout() {
                 </p>
               </div>
             </div>
-            <Button
-              variant="ghost"
-              className="w-full justify-start gap-3 text-sidebar-foreground/70 hover:text-destructive"
-              onClick={handleSignOut}
-            >
+            <Button variant="ghost" className="w-full justify-start gap-3 text-sidebar-foreground/70 hover:text-destructive" onClick={handleSignOut}>
               <LogOut className="h-5 w-5" />
               Sign Out
             </Button>
@@ -153,68 +126,38 @@ export function AdminLayout() {
 
         {/* Mobile Sidebar */}
         <AnimatePresence>
-          {isSidebarOpen && (
-            <>
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                className="lg:hidden fixed inset-0 z-40 bg-black/50"
-                onClick={() => setIsSidebarOpen(false)}
-              />
-              <motion.aside
-                initial={{ x: -280 }}
-                animate={{ x: 0 }}
-                exit={{ x: -280 }}
-                className="lg:hidden fixed left-0 top-16 bottom-0 z-50 w-64 bg-sidebar border-r border-sidebar-border"
-              >
+          {isSidebarOpen && <>
+              <motion.div initial={{
+            opacity: 0
+          }} animate={{
+            opacity: 1
+          }} exit={{
+            opacity: 0
+          }} className="lg:hidden fixed inset-0 z-40 bg-black/50" onClick={() => setIsSidebarOpen(false)} />
+              <motion.aside initial={{
+            x: -280
+          }} animate={{
+            x: 0
+          }} exit={{
+            x: -280
+          }} className="lg:hidden fixed left-0 top-16 bottom-0 z-50 w-64 bg-sidebar border-r border-sidebar-border">
                 <nav className="p-4 space-y-1">
-                  {navItems.map((item) => (
-                    item.href ? (
-                      <Link
-                        key={item.label}
-                        to={item.href}
-                        onClick={() => setIsSidebarOpen(false)}
-                        className={cn(
-                          "flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-colors",
-                          location.pathname === item.href
-                            ? "bg-sidebar-accent text-sidebar-primary"
-                            : "text-sidebar-foreground/70 hover:text-sidebar-foreground hover:bg-sidebar-accent/50"
-                        )}
-                      >
+                  {navItems.map(item => item.href ? <Link key={item.label} to={item.href} onClick={() => setIsSidebarOpen(false)} className={cn("flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-colors", location.pathname === item.href ? "bg-sidebar-accent text-sidebar-primary" : "text-sidebar-foreground/70 hover:text-sidebar-foreground hover:bg-sidebar-accent/50")}>
                         <item.icon className="h-5 w-5" />
                         {item.label}
-                      </Link>
-                    ) : (
-                      <button
-                        key={item.label}
-                        onClick={() => handleNavClick(item)}
-                        className={cn(
-                          "flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-colors w-full text-left",
-                          isCategoriesPanelOpen && item.action === 'open-categories'
-                            ? "bg-sidebar-accent text-sidebar-primary"
-                            : "text-sidebar-foreground/70 hover:text-sidebar-foreground hover:bg-sidebar-accent/50"
-                        )}
-                      >
+                      </Link> : <button key={item.label} onClick={() => handleNavClick(item)} className={cn("flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-colors w-full text-left", isCategoriesPanelOpen && item.action === 'open-categories' ? "bg-sidebar-accent text-sidebar-primary" : "text-sidebar-foreground/70 hover:text-sidebar-foreground hover:bg-sidebar-accent/50")}>
                         <item.icon className="h-5 w-5" />
                         {item.label}
-                      </button>
-                    )
-                  ))}
+                      </button>)}
                 </nav>
                 <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-sidebar-border">
-                  <Button
-                    variant="ghost"
-                    className="w-full justify-start gap-3 text-sidebar-foreground/70 hover:text-destructive"
-                    onClick={handleSignOut}
-                  >
+                  <Button variant="ghost" className="w-full justify-start gap-3 text-sidebar-foreground/70 hover:text-destructive" onClick={handleSignOut}>
                     <LogOut className="h-5 w-5" />
                     Sign Out
                   </Button>
                 </div>
               </motion.aside>
-            </>
-          )}
+            </>}
         </AnimatePresence>
 
         {/* Main Content */}
@@ -225,11 +168,7 @@ export function AdminLayout() {
         </main>
 
         {/* Categories Panel */}
-        <CategoriesPanel 
-          open={isCategoriesPanelOpen} 
-          onOpenChange={setIsCategoriesPanelOpen} 
-        />
+        <CategoriesPanel open={isCategoriesPanelOpen} onOpenChange={setIsCategoriesPanelOpen} />
       </div>
-    </div>
-  );
+    </div>;
 }
