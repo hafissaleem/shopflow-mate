@@ -69,7 +69,7 @@ export function AdminLayout() {
       <header className="lg:hidden sticky top-0 z-50 bg-sidebar border-b border-sidebar-border">
         <div className="flex items-center justify-between px-4 h-16">
           <Link to="/admin" className="flex items-center gap-2">
-             <span className="font-display font-bold text-sidebar-foreground text-5xl text-center">Hasna Cycle Center</span>
+             <span className="font-display font-bold text-sidebar-foreground text-5xl text-left">Hasna Cycle Center</span>
           </Link>
           <Button variant="ghost" size="icon" className="text-sidebar-foreground" onClick={() => setIsSidebarOpen(!isSidebarOpen)}>
             {isSidebarOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
