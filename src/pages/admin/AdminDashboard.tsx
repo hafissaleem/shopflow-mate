@@ -47,9 +47,9 @@ export default function AdminDashboard() {
     change: '+2.4%'
   }];
   return <div>
-       <h1 className="lg:text-5xl font-display font-bold mb-8 text-center text-5xl">Welcome to Admin Dashboard </h1>
+       <h1 className="lg:text-5xl font-display font-bold mb-8 text-center text-5xl py-[20px]">Welcome to Admin Dashboard </h1>
 
-      <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+      <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8 py-[2px]">
         {statCards.map(stat => <div key={stat.title} className="stats-card">
             <div className="flex items-center justify-between mb-4">
               <div className="h-12 w-12 rounded-lg bg-accent/10 flex items-center justify-center">
@@ -65,11 +65,6 @@ export default function AdminDashboard() {
           </div>)}
       </div>
 
-      <div className="bg-card rounded-xl p-6 border border-border">
-        <h2 className="text-lg font-semibold mb-4">Welcome to Admin Panel</h2>
-        <p className="text-muted-foreground">
-          Manage your products, orders, customers, and more from here. Use the sidebar to navigate between different sections.
-        </p>
-      </div>
+      
     </div>;
 }
