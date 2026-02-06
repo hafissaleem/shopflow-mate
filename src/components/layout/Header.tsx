@@ -35,9 +35,7 @@ export function Header() {
         <div className="flex items-center justify-between h-16 lg:h-20">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2">
-            <span className="font-display font-bold text-7xl text-[#ba3b98]">
-               Hasna Cycle Center
-            </span>
+            <span className="font-display font-bold text-[#ba3b98] text-left text-5xl">HasnaCycleCenter</span>
           </Link>
 
           {/* Desktop Navigation */}
