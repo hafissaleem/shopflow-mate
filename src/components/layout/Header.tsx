@@ -41,7 +41,7 @@ export function Header() {
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden lg:flex items-center gap-[38px]">
+          <nav className="hidden lg:flex items-center gap-8">
             <Link to="/products" className="text-sm font-medium text-foreground/80 hover:text-foreground transition-colors">
               All Products
             </Link>
@@ -65,7 +65,7 @@ export function Header() {
           </form>
 
           {/* Actions */}
-          <div className="flex items-center gap-[8px] shadow-none text-[#dc95f3]">
+          <div className="flex items-center gap-2">
             <Link to="/wishlist" className="hidden sm:flex">
               <Button variant="ghost" size="icon" className="text-foreground/80 hover:text-foreground">
                 <Heart className="h-5 w-5" />
@@ -74,7 +74,7 @@ export function Header() {
 
             <Link to="/cart" className="relative">
               <Button variant="ghost" size="icon" className="text-foreground/80 hover:text-foreground">
-                <ShoppingCart className="w-5 text-[#d74242] h-[40px]" />
+                <ShoppingCart className="h-5 w-5" />
                 {itemCount > 0 && <span className="absolute -top-1 -right-1 h-5 w-5 rounded-full bg-accent text-accent-foreground text-xs font-bold flex items-center justify-center">
                     {itemCount}
                   </span>}

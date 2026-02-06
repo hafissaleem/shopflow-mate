@@ -212,7 +212,10 @@ export default function HomePage() {
               <div className="aspect-square rounded-3xl overflow-hidden">
                 <img src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=800" alt="Premium shopping experience" className="w-full h-full object-cover" />
               </div>
-              
+              <div className="absolute -bottom-6 -left-6 bg-white rounded-2xl p-4 shadow-xl">
+                <p className="text-sm text-muted-foreground">Starting from</p>
+                <p className="text-2xl font-bold text-foreground">$49.99</p>
+              </div>
             </motion.div>
           </div>
         </div>
