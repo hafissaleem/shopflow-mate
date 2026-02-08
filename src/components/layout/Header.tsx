@@ -39,20 +39,7 @@ export function Header() {
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden lg:flex items-center gap-8">
-            <Link to="/products" className="text-sm font-medium text-foreground/80 hover:text-foreground transition-colors">
-              All Products
-            </Link>
-            <Link to="/products?category=electronics" className="text-sm font-medium text-foreground/80 hover:text-foreground transition-colors">
-              Electronics
-            </Link>
-            <Link to="/products?category=fashion" className="text-sm font-medium text-foreground/80 hover:text-foreground transition-colors">
-              Fashion
-            </Link>
-            <Link to="/products?category=home" className="text-sm font-medium text-foreground/80 hover:text-foreground transition-colors">
-              Home & Living
-            </Link>
-          </nav>
+          
 
           {/* Search Bar */}
           <form onSubmit={handleSearch} className="hidden md:flex flex-1 max-w-md mx-8">
