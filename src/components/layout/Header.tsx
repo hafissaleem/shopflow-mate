@@ -1,5 +1,5 @@
 import { Link, useNavigate } from 'react-router-dom';
-import { ShoppingCart, User, Search, Menu, X, Heart, LogOut, Settings, Layers } from 'lucide-react';
+import { ShoppingCart, User, Search, Menu, X, Heart, LogOut, Settings, Layers, ArrowLeft } from 'lucide-react';
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from '@/components/ui/button';
@@ -35,6 +35,11 @@ export function Header() {
   return <header className="sticky top-0 z-50 glass border-b border-border/50">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16 lg:h-20">
+          {/* Back Button */}
+          <Button variant="ghost" size="icon" className="text-foreground/80 hover:text-foreground" onClick={() => navigate(-1)}>
+            <ArrowLeft className="h-5 w-5" />
+          </Button>
+
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2">
             <span className="font-display font-bold text-[#ba3b98] text-left text-5xl">Hasna Cycle Center</span>
