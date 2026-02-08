@@ -52,7 +52,7 @@ export default function AdminCustomersPage() {
       .order('created_at', { ascending: false });
 
     if (error) {
-      console.error('Error fetching customers:', error);
+      if (import.meta.env.DEV) console.error('Error fetching customers:', error);
       setIsLoading(false);
       return;
     }

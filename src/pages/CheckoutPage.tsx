@@ -112,7 +112,7 @@ export default function CheckoutPage() {
       setStep('confirmation');
       toast.success('Order placed successfully!');
     } catch (error) {
-      console.error('Order error:', error);
+      if (import.meta.env.DEV) console.error('Order error:', error);
       toast.error('Failed to place order. Please try again.');
     } finally {
       setIsLoading(false);

@@ -70,7 +70,12 @@ export default function AdminOrdersPage() {
       .order('created_at', { ascending: false });
     
     if (error) {
-      console.error('Error fetching orders:', error);
+      if (import.meta.env.DEV) console.error('Error fetching orders:', error);
+      toast({
+        title: 'Error',
+        description: 'Failed to load orders. Please try again.',
+        variant: 'destructive',
+      });
       setIsLoading(false);
       return;
     }
