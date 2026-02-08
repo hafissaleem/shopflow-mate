@@ -1,17 +1,26 @@
 import { Link, useNavigate } from 'react-router-dom';
-import { ShoppingCart, User, Search, Menu, X, Heart, LogOut, Settings, Layers, ArrowLeft } from 'lucide-react';
-import { useState } from 'react';
+import { ShoppingCart, User, Search, Menu, X, Heart, LogOut, Layers, ArrowLeft } from 'lucide-react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useAuth } from '@/hooks/useAuth';
 import { useCart } from '@/hooks/useCart';
+import { supabase } from '@/integrations/supabase/client';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { CategoriesPanel } from '@/components/admin/CategoriesPanel';
+
+interface CategoryItem {
+  id: string;
+  name: string;
+  slug: string;
+}
+
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [isCategoriesPanelOpen, setIsCategoriesPanelOpen] = useState(false);
+  const [categories, setCategories] = useState<CategoryItem[]>([]);
   const navigate = useNavigate();
   const {
     user,
@@ -21,6 +30,19 @@ export function Header() {
   const {
     itemCount
   } = useCart();
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      const { data } = await supabase
+        .from('categories')
+        .select('id, name, slug')
+        .eq('is_active', true)
+        .order('name');
+      if (data) setCategories(data);
+    };
+    fetchCategories();
+  }, []);
+
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     if (searchQuery.trim()) {
@@ -58,6 +80,34 @@ export function Header() {
 
           {/* Actions */}
           <div className="flex items-center gap-2">
+            {/* Categories Menu */}
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" size="icon" className="text-foreground/80 hover:text-foreground">
+                  <Layers className="h-5 w-5" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-48 bg-popover">
+                <DropdownMenuItem asChild>
+                  <Link to="/products" className="cursor-pointer font-medium">All Products</Link>
+                </DropdownMenuItem>
+                {categories.length > 0 && <DropdownMenuSeparator />}
+                {categories.map((cat) => (
+                  <DropdownMenuItem key={cat.id} asChild>
+                    <Link to={`/products?category=${cat.slug}`} className="cursor-pointer">
+                      {cat.name}
+                    </Link>
+                  </DropdownMenuItem>
+                ))}
+                {isAdmin && <>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem onClick={() => setIsCategoriesPanelOpen(true)} className="cursor-pointer text-accent font-medium">
+                    Manage Categories
+                  </DropdownMenuItem>
+                </>}
+              </DropdownMenuContent>
+            </DropdownMenu>
+
             <Link to="/wishlist" className="hidden sm:flex">
               <Button variant="ghost" size="icon" className="text-foreground/80 hover:text-foreground">
                 <Heart className="h-5 w-5" />
@@ -79,7 +129,7 @@ export function Header() {
                     <User className="h-5 w-5" />
                   </Button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent align="end" className="w-48">
+                <DropdownMenuContent align="end" className="w-48 bg-popover">
                   <DropdownMenuItem asChild>
                     <Link to="/dashboard" className="cursor-pointer">My Account</Link>
                   </DropdownMenuItem>
@@ -108,23 +158,6 @@ export function Header() {
                   <User className="h-5 w-5" />
                 </Button>
               </Link>}
-
-            {/* Admin Menu */}
-            {isAdmin && (
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" size="icon" className="text-foreground/80 hover:text-foreground">
-                    <Settings className="h-5 w-5" />
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end" className="w-48 bg-popover">
-                  <DropdownMenuItem onClick={() => setIsCategoriesPanelOpen(true)} className="cursor-pointer gap-2">
-                    <Layers className="h-4 w-4" />
-                    Categories
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            )}
 
             {/* Mobile Menu Toggle */}
             <Button variant="ghost" size="icon" className="lg:hidden text-foreground/80" onClick={() => setIsMenuOpen(!isMenuOpen)}>
@@ -157,21 +190,17 @@ export function Header() {
                 <Link to="/products" className="py-2 text-sm font-medium" onClick={() => setIsMenuOpen(false)}>
                   All Products
                 </Link>
-                <Link to="/products?category=electronics" className="py-2 text-sm font-medium" onClick={() => setIsMenuOpen(false)}>
-                  Electronics
-                </Link>
-                <Link to="/products?category=fashion" className="py-2 text-sm font-medium" onClick={() => setIsMenuOpen(false)}>
-                  Fashion
-                </Link>
-                <Link to="/products?category=home" className="py-2 text-sm font-medium" onClick={() => setIsMenuOpen(false)}>
-                  Home & Living
-                </Link>
+                {categories.map((cat) => (
+                  <Link key={cat.id} to={`/products?category=${cat.slug}`} className="py-2 text-sm font-medium" onClick={() => setIsMenuOpen(false)}>
+                    {cat.name}
+                  </Link>
+                ))}
               </nav>
             </div>
           </motion.div>}
       </AnimatePresence>
 
-      {/* Categories Panel */}
+      {/* Categories Panel (Admin only) */}
       <CategoriesPanel open={isCategoriesPanelOpen} onOpenChange={setIsCategoriesPanelOpen} />
     </header>;
 }
