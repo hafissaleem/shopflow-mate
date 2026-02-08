@@ -1,5 +1,5 @@
 import { Link, useNavigate } from 'react-router-dom';
-import { ShoppingCart, User, Search, Menu, X, Heart, LogOut } from 'lucide-react';
+import { ShoppingCart, User, Search, Menu, X, Heart, LogOut, Settings, Layers } from 'lucide-react';
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from '@/components/ui/button';
@@ -7,9 +7,11 @@ import { Input } from '@/components/ui/input';
 import { useAuth } from '@/hooks/useAuth';
 import { useCart } from '@/hooks/useCart';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
+import { CategoriesPanel } from '@/components/admin/CategoriesPanel';
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  const [isCategoriesPanelOpen, setIsCategoriesPanelOpen] = useState(false);
   const navigate = useNavigate();
   const {
     user,
@@ -102,6 +104,23 @@ export function Header() {
                 </Button>
               </Link>}
 
+            {/* Admin Menu */}
+            {isAdmin && (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" size="icon" className="text-foreground/80 hover:text-foreground">
+                    <Settings className="h-5 w-5" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-48 bg-popover">
+                  <DropdownMenuItem onClick={() => setIsCategoriesPanelOpen(true)} className="cursor-pointer gap-2">
+                    <Layers className="h-4 w-4" />
+                    Categories
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            )}
+
             {/* Mobile Menu Toggle */}
             <Button variant="ghost" size="icon" className="lg:hidden text-foreground/80" onClick={() => setIsMenuOpen(!isMenuOpen)}>
               {isMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
@@ -146,5 +165,8 @@ export function Header() {
             </div>
           </motion.div>}
       </AnimatePresence>
+
+      {/* Categories Panel */}
+      <CategoriesPanel open={isCategoriesPanelOpen} onOpenChange={setIsCategoriesPanelOpen} />
     </header>;
 }
