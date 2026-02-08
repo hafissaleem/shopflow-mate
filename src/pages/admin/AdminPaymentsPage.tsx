@@ -56,7 +56,7 @@ export default function AdminPaymentsPage() {
       .order('created_at', { ascending: false });
 
     if (error) {
-      console.error('Error fetching payments:', error);
+      if (import.meta.env.DEV) console.error('Error fetching payments:', error);
       setIsLoading(false);
       return;
     }

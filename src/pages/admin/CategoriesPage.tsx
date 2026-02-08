@@ -92,7 +92,7 @@ export default function CategoriesPage() {
     setLoading(false);
     
     if (error) {
-      console.error("Error fetching categories:", error.message);
+      if (import.meta.env.DEV) console.error("Error fetching categories:", error.message);
       toast({
         title: "Error",
         description: "Failed to load categories",
@@ -193,10 +193,10 @@ export default function CategoriesPage() {
       setSaving(false);
       
       if (error) {
-        console.error("Error updating category:", error.message);
+        if (import.meta.env.DEV) console.error("Error updating category:", error.message);
         toast({
           title: "Error",
-          description: error.message || "Failed to update category",
+          description: "Failed to update category. Please try again.",
           variant: "destructive",
         });
         return;
@@ -220,10 +220,10 @@ export default function CategoriesPage() {
       setSaving(false);
       
       if (error) {
-        console.error("Error adding category:", error.message);
+        if (import.meta.env.DEV) console.error("Error adding category:", error.message);
         toast({
           title: "Error",
-          description: error.message || "Failed to add category",
+          description: "Failed to add category. Please try again.",
           variant: "destructive",
         });
         return;
@@ -248,10 +248,10 @@ export default function CategoriesPage() {
       .eq("id", deletingCategory.id);
     
     if (error) {
-      console.error("Error deleting category:", error.message);
+      if (import.meta.env.DEV) console.error("Error deleting category:", error.message);
       toast({
         title: "Error",
-        description: error.message || "Failed to delete category",
+        description: "Failed to delete category. Please try again.",
         variant: "destructive",
       });
       setIsDeleteDialogOpen(false);
@@ -274,7 +274,7 @@ export default function CategoriesPage() {
       .eq("id", category.id);
     
     if (error) {
-      console.error("Error updating status:", error.message);
+      if (import.meta.env.DEV) console.error("Error updating status:", error.message);
       toast({
         title: "Error",
         description: "Failed to update category status",

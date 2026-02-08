@@ -61,6 +61,24 @@ export default function AddProductPage() {
   const addImageUrl = () => {
     const url = prompt('Enter image URL:');
     if (url) {
+      try {
+        const parsed = new URL(url);
+        if (!['http:', 'https:'].includes(parsed.protocol)) {
+          toast({
+            title: 'Invalid URL',
+            description: 'Image URLs must use HTTP or HTTPS protocol',
+            variant: 'destructive',
+          });
+          return;
+        }
+      } catch {
+        toast({
+          title: 'Invalid URL',
+          description: 'Please enter a valid URL',
+          variant: 'destructive',
+        });
+        return;
+      }
       setFormData(prev => ({
         ...prev,
         images: [...prev.images, url],
@@ -75,17 +93,96 @@ export default function AddProductPage() {
     }));
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
+  const validateProduct = () => {
     if (!formData.name || !formData.price || !formData.slug) {
       toast({
         title: 'Validation Error',
         description: 'Please fill in all required fields (Name, Slug, Price)',
         variant: 'destructive',
       });
-      return;
+      return false;
     }
+
+    // Validate slug format
+    if (!/^[a-z0-9-]+$/.test(formData.slug)) {
+      toast({
+        title: 'Validation Error',
+        description: 'Slug must contain only lowercase letters, numbers, and hyphens',
+        variant: 'destructive',
+      });
+      return false;
+    }
+    if (formData.slug.length > 100) {
+      toast({
+        title: 'Validation Error',
+        description: 'Slug must be under 100 characters',
+        variant: 'destructive',
+      });
+      return false;
+    }
+
+    // Validate price
+    const price = parseFloat(formData.price);
+    if (isNaN(price) || price < 0 || price > 1000000) {
+      toast({
+        title: 'Validation Error',
+        description: 'Price must be between 0 and 1,000,000',
+        variant: 'destructive',
+      });
+      return false;
+    }
+
+    // Validate compare_at_price
+    if (formData.compare_at_price) {
+      const comparePrice = parseFloat(formData.compare_at_price);
+      if (isNaN(comparePrice) || comparePrice < 0 || comparePrice > 1000000) {
+        toast({
+          title: 'Validation Error',
+          description: 'Compare-at price must be between 0 and 1,000,000',
+          variant: 'destructive',
+        });
+        return false;
+      }
+    }
+
+    // Validate stock
+    const stock = parseInt(formData.stock_quantity);
+    if (isNaN(stock) || stock < 0 || stock > 999999) {
+      toast({
+        title: 'Validation Error',
+        description: 'Stock must be between 0 and 999,999',
+        variant: 'destructive',
+      });
+      return false;
+    }
+
+    // Validate description length
+    if (formData.description && formData.description.length > 5000) {
+      toast({
+        title: 'Validation Error',
+        description: 'Description must be under 5,000 characters',
+        variant: 'destructive',
+      });
+      return false;
+    }
+
+    // Validate name length
+    if (formData.name.length > 200) {
+      toast({
+        title: 'Validation Error',
+        description: 'Product name must be under 200 characters',
+        variant: 'destructive',
+      });
+      return false;
+    }
+
+    return true;
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (!validateProduct()) return;
 
     setLoading(true);
 
@@ -107,9 +204,10 @@ export default function AddProductPage() {
     setLoading(false);
 
     if (error) {
+      if (import.meta.env.DEV) console.error('Error adding product:', error);
       toast({
         title: 'Error',
-        description: error.message,
+        description: 'Failed to add product. Please try again.',
         variant: 'destructive',
       });
     } else {

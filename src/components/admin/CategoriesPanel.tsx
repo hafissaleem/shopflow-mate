@@ -96,7 +96,7 @@ export function CategoriesPanel({ open, onOpenChange }: CategoriesPanelProps) {
     setLoading(false);
     
     if (error) {
-      console.error("Error fetching categories:", error.message);
+      if (import.meta.env.DEV) console.error("Error fetching categories:", error.message);
       toast({
         title: "Error",
         description: "Failed to load categories",
@@ -200,7 +200,7 @@ export function CategoriesPanel({ open, onOpenChange }: CategoriesPanelProps) {
       if (error) {
         toast({
           title: "Error",
-          description: error.message || "Failed to update category",
+          description: "Failed to update category. Please try again.",
           variant: "destructive",
         });
         return;
@@ -225,7 +225,7 @@ export function CategoriesPanel({ open, onOpenChange }: CategoriesPanelProps) {
       if (error) {
         toast({
           title: "Error",
-          description: error.message || "Failed to add category",
+          description: "Failed to add category. Please try again.",
           variant: "destructive",
         });
         return;
@@ -252,7 +252,7 @@ export function CategoriesPanel({ open, onOpenChange }: CategoriesPanelProps) {
     if (error) {
       toast({
         title: "Error",
-        description: error.message || "Failed to delete category",
+        description: "Failed to delete category. Please try again.",
         variant: "destructive",
       });
       setIsDeleteDialogOpen(false);
