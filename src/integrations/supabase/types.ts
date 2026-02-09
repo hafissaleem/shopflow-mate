@@ -416,6 +416,30 @@ export type Database = {
           },
         ]
       }
+      store_settings: {
+        Row: {
+          created_at: string
+          description: string | null
+          key: string
+          updated_at: string
+          value: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          key: string
+          updated_at?: string
+          value: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          key?: string
+          updated_at?: string
+          value?: string
+        }
+        Relationships: []
+      }
       user_roles: {
         Row: {
           id: string
