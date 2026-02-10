@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { ArrowRight, Truck, Shield, RefreshCw, Headphones } from 'lucide-react';
+import hasnaBanner from '@/assets/hasna-banner.jpg';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { ProductCard } from '@/components/products/ProductCard';
@@ -162,6 +163,17 @@ export default function HomePage() {
   const displayProducts = products?.length ? products : demoProducts;
   const displayCategories = categories?.length ? categories : demoCategories;
   return <div>
+      {/* Store Banner */}
+      <section className="w-full bg-foreground">
+        <div className="container mx-auto px-4">
+          <img
+            src={hasnaBanner}
+            alt="Hasna Cycle Center - Bicycle, Tricycle and All Kind of Bicycle Spare Parts & Repair"
+            className="w-full h-auto max-h-[300px] object-contain mx-auto"
+          />
+        </div>
+      </section>
+
       {/* Hero Section */}
       <section className="hero-gradient text-primary-foreground overflow-hidden">
         <div className="container mx-auto px-4 py-16 lg:py-24">
