@@ -44,8 +44,12 @@ export function WhatsAppFloatingButton() {
         target="_blank"
         rel="noopener noreferrer"
         onClick={(e) => {
+          e.preventDefault();
           e.stopPropagation();
-          window.open(whatsappLink, '_blank', 'noopener,noreferrer');
+          const opened = window.open(whatsappLink, '_blank');
+          if (!opened || opened.closed) {
+            window.location.href = whatsappLink;
+          }
         }}
         aria-label={`Contact ${label} on WhatsApp`}
         className="relative z-10 flex items-center justify-center h-14 w-14 rounded-full shadow-lg transition-transform hover:scale-110 cursor-pointer"
