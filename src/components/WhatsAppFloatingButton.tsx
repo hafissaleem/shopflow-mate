@@ -31,7 +31,7 @@ export function WhatsAppFloatingButton() {
             initial={{ opacity: 0, x: 10 }}
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: 10 }}
-            className="bg-card shadow-lg rounded-lg px-4 py-2 border border-border whitespace-nowrap"
+            className="bg-card shadow-lg rounded-lg px-4 py-2 border border-border whitespace-nowrap pointer-events-none"
           >
             <p className="text-sm font-medium text-foreground">{label}</p>
             <p className="text-xs text-muted-foreground">Chat with us on WhatsApp</p>
@@ -43,8 +43,12 @@ export function WhatsAppFloatingButton() {
         href={whatsappLink}
         target="_blank"
         rel="noopener noreferrer"
+        onClick={(e) => {
+          e.stopPropagation();
+          window.open(whatsappLink, '_blank', 'noopener,noreferrer');
+        }}
         aria-label={`Contact ${label} on WhatsApp`}
-        className="flex items-center justify-center h-14 w-14 rounded-full shadow-lg transition-transform hover:scale-110"
+        className="relative z-10 flex items-center justify-center h-14 w-14 rounded-full shadow-lg transition-transform hover:scale-110 cursor-pointer"
         style={{ backgroundColor: '#25D366' }}
       >
         <MessageCircle className="h-7 w-7 text-white" fill="white" />
