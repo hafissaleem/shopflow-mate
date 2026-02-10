@@ -45,6 +45,8 @@ export default function AdminSettingsPage() {
     adminLabel: 'Send Order via WhatsApp',
     customerCareLabel: 'Customer Care',
   });
+  const [whatsappErrors, setWhatsappErrors] = useState<Record<string, string>>({});
+  const [isSavingWhatsapp, setIsSavingWhatsapp] = useState(false);
 
   // Payment settings state
   const [paymentSettings, setPaymentSettings] = useState({
@@ -142,26 +144,60 @@ export default function AdminSettingsPage() {
     },
   });
 
-  const handleSaveSettings = async () => {
-    setIsSaving(true);
+  const validatePhoneNumber = (phone: string): boolean => {
+    if (!phone.trim()) return true; // empty is allowed
+    return /^\+\d{7,15}$/.test(phone.replace(/[\s\-()]/g, ''));
+  };
+
+  const sanitizeInput = (value: string): string => {
+    return value.replace(/[<>"'&]/g, '').trim();
+  };
+
+  const handleSaveWhatsapp = async () => {
+    const errors: Record<string, string> = {};
+    const cleanAdmin = whatsappSettings.adminNumber.replace(/[\s\-()]/g, '');
+    const cleanCare = whatsappSettings.customerCareNumber.replace(/[\s\-()]/g, '');
+
+    if (cleanAdmin && !validatePhoneNumber(cleanAdmin)) {
+      errors.adminNumber = 'Enter a valid number with country code (e.g., +919876543210)';
+    }
+    if (cleanCare && !validatePhoneNumber(cleanCare)) {
+      errors.customerCareNumber = 'Enter a valid number with country code (e.g., +919876543210)';
+    }
+
+    setWhatsappErrors(errors);
+    if (Object.keys(errors).length > 0) return;
+
+    setIsSavingWhatsapp(true);
     try {
-      // Save WhatsApp settings to database
-      const whatsappUpdates = [
-        { key: 'whatsapp_admin_number', value: whatsappSettings.adminNumber },
-        { key: 'whatsapp_customer_care_number', value: whatsappSettings.customerCareNumber },
-        { key: 'whatsapp_admin_label', value: whatsappSettings.adminLabel },
-        { key: 'whatsapp_customer_care_label', value: whatsappSettings.customerCareLabel },
+      const updates = [
+        { key: 'whatsapp_admin_number', value: sanitizeInput(cleanAdmin) },
+        { key: 'whatsapp_customer_care_number', value: sanitizeInput(cleanCare) },
+        { key: 'whatsapp_admin_label', value: sanitizeInput(whatsappSettings.adminLabel) || 'Send Order via WhatsApp' },
+        { key: 'whatsapp_customer_care_label', value: sanitizeInput(whatsappSettings.customerCareLabel) || 'Customer Care' },
       ];
 
-      for (const update of whatsappUpdates) {
+      for (const update of updates) {
         const { error } = await supabase
           .from('store_settings')
-          .update({ value: update.value })
-          .eq('key', update.key);
+          .upsert({ key: update.key, value: update.value }, { onConflict: 'key' });
         if (error) throw error;
       }
 
       queryClient.invalidateQueries({ queryKey: ['store-settings'] });
+      toast.success('WhatsApp settings saved successfully!');
+    } catch (error) {
+      if (import.meta.env.DEV) console.error('Save WhatsApp settings error:', error);
+      toast.error('Failed to save WhatsApp settings. Please try again.');
+    } finally {
+      setIsSavingWhatsapp(false);
+    }
+  };
+
+  const handleSaveSettings = async () => {
+    setIsSaving(true);
+    try {
+      await handleSaveWhatsapp();
       toast.success('Settings saved successfully!');
     } catch (error) {
       if (import.meta.env.DEV) console.error('Save settings error:', error);
@@ -327,17 +363,25 @@ export default function AdminSettingsPage() {
               <div className="space-y-4">
                 <h3 className="font-semibold text-destructive">Admin WhatsApp (Order Submissions)</h3>
                 <div className="space-y-2">
-                  <Label htmlFor="adminNumber">Admin WhatsApp Number</Label>
+                  <Label htmlFor="adminNumber">Admin WhatsApp Number <span className="text-destructive">*</span></Label>
                   <Input
                     id="adminNumber"
                     value={whatsappSettings.adminNumber}
-                    onChange={(e) => setWhatsappSettings({ ...whatsappSettings, adminNumber: e.target.value })}
+                    onChange={(e) => {
+                      setWhatsappSettings({ ...whatsappSettings, adminNumber: e.target.value });
+                      setWhatsappErrors((prev) => ({ ...prev, adminNumber: '' }));
+                    }}
                     placeholder="+919876543210"
                     maxLength={20}
+                    className={whatsappErrors.adminNumber ? 'border-destructive' : ''}
                   />
-                  <p className="text-xs text-muted-foreground">
-                    Include country code (e.g., +91 for India). Confirmed orders will be sent here.
-                  </p>
+                  {whatsappErrors.adminNumber ? (
+                    <p className="text-xs text-destructive">{whatsappErrors.adminNumber}</p>
+                  ) : (
+                    <p className="text-xs text-muted-foreground">
+                      Include country code (e.g., +91 for India). Confirmed orders will be sent here.
+                    </p>
+                  )}
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="adminLabel">Button Label</Label>
@@ -354,17 +398,25 @@ export default function AdminSettingsPage() {
               <div className="border-t border-border pt-6 space-y-4">
                 <h3 className="font-semibold" style={{ color: '#25D366' }}>Customer Care WhatsApp (Inquiries)</h3>
                 <div className="space-y-2">
-                  <Label htmlFor="customerCareNumber">Customer Care WhatsApp Number</Label>
+                  <Label htmlFor="customerCareNumber">Customer Care WhatsApp Number <span className="text-destructive">*</span></Label>
                   <Input
                     id="customerCareNumber"
                     value={whatsappSettings.customerCareNumber}
-                    onChange={(e) => setWhatsappSettings({ ...whatsappSettings, customerCareNumber: e.target.value })}
+                    onChange={(e) => {
+                      setWhatsappSettings({ ...whatsappSettings, customerCareNumber: e.target.value });
+                      setWhatsappErrors((prev) => ({ ...prev, customerCareNumber: '' }));
+                    }}
                     placeholder="+919876543210"
                     maxLength={20}
+                    className={whatsappErrors.customerCareNumber ? 'border-destructive' : ''}
                   />
-                  <p className="text-xs text-muted-foreground">
-                    Include country code. A floating button will appear on the website for customer inquiries.
-                  </p>
+                  {whatsappErrors.customerCareNumber ? (
+                    <p className="text-xs text-destructive">{whatsappErrors.customerCareNumber}</p>
+                  ) : (
+                    <p className="text-xs text-muted-foreground">
+                      Include country code. A floating button will appear on the website for customer inquiries.
+                    </p>
+                  )}
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="customerCareLabel">Button Label</Label>
@@ -376,6 +428,13 @@ export default function AdminSettingsPage() {
                     maxLength={50}
                   />
                 </div>
+              </div>
+
+              <div className="pt-4 border-t border-border">
+                <Button onClick={handleSaveWhatsapp} disabled={isSavingWhatsapp} className="gap-2" style={{ backgroundColor: '#25D366' }}>
+                  <Save className="h-4 w-4" />
+                  {isSavingWhatsapp ? 'Saving...' : 'Save WhatsApp Settings'}
+                </Button>
               </div>
             </CardContent>
           </Card>
