@@ -103,7 +103,7 @@ export default function AdminSettingsPage() {
 
   // Load WhatsApp settings from DB
   useEffect(() => {
-    if (dbSettings) {
+    if (dbSettings && Array.isArray(dbSettings)) {
       const settingsMap: Record<string, string> = {};
       dbSettings.forEach((row: { key: string; value: string }) => {
         settingsMap[row.key] = row.value;
