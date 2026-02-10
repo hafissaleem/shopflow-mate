@@ -164,14 +164,12 @@ export default function HomePage() {
   const displayCategories = categories?.length ? categories : demoCategories;
   return <div>
       {/* Store Banner */}
-      <section className="w-full bg-foreground">
-        <div className="container mx-auto px-4">
-          <img
-            src={hasnaBanner}
-            alt="Hasna Cycle Center - Bicycle, Tricycle and All Kind of Bicycle Spare Parts & Repair"
-            className="w-full h-auto max-h-[300px] object-contain mx-auto"
-          />
-        </div>
+      <section className="w-full">
+        <img
+          src={hasnaBanner}
+          alt="Hasna Cycle Center - Bicycle, Tricycle and All Kind of Bicycle Spare Parts & Repair"
+          className="w-full h-auto block"
+        />
       </section>
 
       {/* Hero Section */}
