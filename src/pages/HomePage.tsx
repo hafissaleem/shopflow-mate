@@ -163,15 +163,6 @@ export default function HomePage() {
   const displayProducts = products?.length ? products : demoProducts;
   const displayCategories = categories?.length ? categories : demoCategories;
   return <div>
-      {/* Store Banner */}
-      <section className="w-full">
-        <img
-          src={hasnaBanner}
-          alt="Hasna Cycle Center - Bicycle, Tricycle and All Kind of Bicycle Spare Parts & Repair"
-          className="w-full h-auto block"
-        />
-      </section>
-
       {/* Hero Section */}
       <section className="hero-gradient text-primary-foreground overflow-hidden">
         <div className="container mx-auto px-4 py-16 lg:py-24">
@@ -219,12 +210,8 @@ export default function HomePage() {
             duration: 0.6,
             delay: 0.2
           }} className="relative hidden lg:block">
-              <div className="aspect-square rounded-3xl overflow-hidden">
-                <img src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=800" alt="Premium shopping experience" className="w-full h-full object-cover" />
-              </div>
-              <div className="absolute -bottom-6 -left-6 bg-white rounded-2xl p-4 shadow-xl">
-                <p className="text-sm text-muted-foreground">Starting from</p>
-                <p className="text-2xl font-bold text-foreground">$49.99</p>
+              <div className="rounded-3xl overflow-hidden">
+                <img src={hasnaBanner} alt="Hasna Cycle Center - Bicycle, Tricycle and All Kind of Bicycle Spare Parts & Repair" className="w-full h-full object-cover" />
               </div>
             </motion.div>
           </div>
