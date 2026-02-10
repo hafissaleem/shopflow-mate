@@ -87,10 +87,8 @@ export function formatOrderForWhatsApp(order: OrderDetails): string {
  * Generate a WhatsApp link with pre-filled message
  */
 export function generateWhatsAppLink(phoneNumber: string, message: string): string {
-  // Clean phone number - remove spaces, dashes, parentheses
-  const cleanNumber = phoneNumber.replace(/[\s\-()]/g, '');
-  // Remove leading + if present (WhatsApp API uses numbers without +)
-  const number = cleanNumber.startsWith('+') ? cleanNumber.slice(1) : cleanNumber;
+  // Strip to digits only for wa.me format
+  const number = phoneNumber.replace(/\D/g, '');
   const encodedMessage = encodeURIComponent(message);
   return `https://wa.me/${number}?text=${encodedMessage}`;
 }

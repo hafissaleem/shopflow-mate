@@ -144,9 +144,15 @@ export default function AdminSettingsPage() {
     },
   });
 
+  // Strip to digits only
+  const cleanToDigits = (phone: string): string => {
+    return phone.replace(/\D/g, '');
+  };
+
   const validatePhoneNumber = (phone: string): boolean => {
     if (!phone.trim()) return true; // empty is allowed
-    return /^\+\d{7,15}$/.test(phone.replace(/[\s\-()]/g, ''));
+    const digits = cleanToDigits(phone);
+    return digits.length >= 10 && digits.length <= 15;
   };
 
   const sanitizeInput = (value: string): string => {
@@ -155,14 +161,14 @@ export default function AdminSettingsPage() {
 
   const handleSaveWhatsapp = async () => {
     const errors: Record<string, string> = {};
-    const cleanAdmin = whatsappSettings.adminNumber.replace(/[\s\-()]/g, '');
-    const cleanCare = whatsappSettings.customerCareNumber.replace(/[\s\-()]/g, '');
+    const digitsAdmin = cleanToDigits(whatsappSettings.adminNumber);
+    const digitsCare = cleanToDigits(whatsappSettings.customerCareNumber);
 
-    if (cleanAdmin && !validatePhoneNumber(cleanAdmin)) {
-      errors.adminNumber = 'Enter a valid number with country code (e.g., +919876543210)';
+    if (whatsappSettings.adminNumber.trim() && !validatePhoneNumber(whatsappSettings.adminNumber)) {
+      errors.adminNumber = 'Enter a valid number with country code (10–15 digits, e.g., +919876543210)';
     }
-    if (cleanCare && !validatePhoneNumber(cleanCare)) {
-      errors.customerCareNumber = 'Enter a valid number with country code (e.g., +919876543210)';
+    if (whatsappSettings.customerCareNumber.trim() && !validatePhoneNumber(whatsappSettings.customerCareNumber)) {
+      errors.customerCareNumber = 'Enter a valid number with country code (10–15 digits, e.g., +919876543210)';
     }
 
     setWhatsappErrors(errors);
@@ -171,8 +177,8 @@ export default function AdminSettingsPage() {
     setIsSavingWhatsapp(true);
     try {
       const updates = [
-        { key: 'whatsapp_admin_number', value: sanitizeInput(cleanAdmin) },
-        { key: 'whatsapp_customer_care_number', value: sanitizeInput(cleanCare) },
+        { key: 'whatsapp_admin_number', value: digitsAdmin },
+        { key: 'whatsapp_customer_care_number', value: digitsCare },
         { key: 'whatsapp_admin_label', value: sanitizeInput(whatsappSettings.adminLabel) || 'Send Order via WhatsApp' },
         { key: 'whatsapp_customer_care_label', value: sanitizeInput(whatsappSettings.customerCareLabel) || 'Customer Care' },
       ];
@@ -382,6 +388,15 @@ export default function AdminSettingsPage() {
                       Include country code (e.g., +91 for India). Confirmed orders will be sent here.
                     </p>
                   )}
+                  {whatsappSettings.adminNumber.trim() && !whatsappErrors.adminNumber && (
+                    <p className="text-xs text-muted-foreground mt-1">
+                      ✅ Will be saved as: <span className="font-mono font-medium">{cleanToDigits(whatsappSettings.adminNumber)}</span>
+                      {' → '}
+                      <a href={`https://wa.me/${cleanToDigits(whatsappSettings.adminNumber)}`} target="_blank" rel="noopener noreferrer" className="underline text-accent">
+                        wa.me/{cleanToDigits(whatsappSettings.adminNumber)}
+                      </a>
+                    </p>
+                  )}
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="adminLabel">Button Label</Label>
@@ -415,6 +430,15 @@ export default function AdminSettingsPage() {
                   ) : (
                     <p className="text-xs text-muted-foreground">
                       Include country code. A floating button will appear on the website for customer inquiries.
+                    </p>
+                  )}
+                  {whatsappSettings.customerCareNumber.trim() && !whatsappErrors.customerCareNumber && (
+                    <p className="text-xs text-muted-foreground mt-1">
+                      ✅ Will be saved as: <span className="font-mono font-medium">{cleanToDigits(whatsappSettings.customerCareNumber)}</span>
+                      {' → '}
+                      <a href={`https://wa.me/${cleanToDigits(whatsappSettings.customerCareNumber)}`} target="_blank" rel="noopener noreferrer" className="underline text-accent">
+                        wa.me/{cleanToDigits(whatsappSettings.customerCareNumber)}
+                      </a>
                     </p>
                   )}
                 </div>
