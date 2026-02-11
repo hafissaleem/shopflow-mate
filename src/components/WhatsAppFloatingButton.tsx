@@ -11,10 +11,12 @@ export function WhatsAppFloatingButton() {
   const customerCareNumber = settings.whatsapp_customer_care_number;
   const label = settings.whatsapp_customer_care_label || 'Customer Care';
 
-  // Don't render if no number is configured
-  if (!customerCareNumber) return null;
+  const whatsappLink = customerCareNumber
+    ? generateWhatsAppLink(customerCareNumber, generateInquiryMessage())
+    : '';
 
-  const whatsappLink = generateWhatsAppLink(customerCareNumber, generateInquiryMessage());
+  // Don't render if no valid link
+  if (!whatsappLink) return null;
 
   return (
     <motion.div
