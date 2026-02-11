@@ -303,15 +303,13 @@ export function CategoriesPanel({ open, onOpenChange }: CategoriesPanelProps) {
           <div className="flex flex-col h-full">
             {/* Header */}
             <SheetHeader className="p-6 pb-4 border-b border-border">
-              <div className="flex items-center justify-between">
+              <div className="flex items-center justify-between pr-8">
                 <SheetTitle className="text-xl font-display">Categories</SheetTitle>
                 <Button onClick={handleOpenAddDialog} size="sm" className="gap-1.5">
                   <Plus className="h-4 w-4" />
                   Add
                 </Button>
               </div>
-              
-              {/* Search */}
               <div className="relative mt-4">
                 <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                 <Input
