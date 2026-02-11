@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ArrowLeft, Upload, X } from 'lucide-react';
+import { ArrowLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -17,6 +17,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { useCategories } from '@/hooks/useProducts';
 import { useToast } from '@/hooks/use-toast';
 import { useQueryClient } from '@tanstack/react-query';
+import ProductImageUpload from '@/components/admin/ProductImageUpload';
 
 export default function AddProductPage() {
   const navigate = useNavigate();
@@ -58,40 +59,6 @@ export default function AddProductPage() {
     setFormData(prev => ({ ...prev, [field]: value }));
   };
 
-  const addImageUrl = () => {
-    const url = prompt('Enter image URL:');
-    if (url) {
-      try {
-        const parsed = new URL(url);
-        if (!['http:', 'https:'].includes(parsed.protocol)) {
-          toast({
-            title: 'Invalid URL',
-            description: 'Image URLs must use HTTP or HTTPS protocol',
-            variant: 'destructive',
-          });
-          return;
-        }
-      } catch {
-        toast({
-          title: 'Invalid URL',
-          description: 'Please enter a valid URL',
-          variant: 'destructive',
-        });
-        return;
-      }
-      setFormData(prev => ({
-        ...prev,
-        images: [...prev.images, url],
-      }));
-    }
-  };
-
-  const removeImage = (index: number) => {
-    setFormData(prev => ({
-      ...prev,
-      images: prev.images.filter((_, i) => i !== index),
-    }));
-  };
 
   const validateProduct = () => {
     if (!formData.name || !formData.price || !formData.slug) {
@@ -333,29 +300,10 @@ export default function AddProductPage() {
 
         <div className="bg-card rounded-xl border border-border p-6 space-y-4">
           <h2 className="text-lg font-semibold mb-4">Images</h2>
-          
-          <div className="flex flex-wrap gap-3">
-            {formData.images.map((img, index) => (
-              <div key={index} className="relative w-20 h-20 rounded-lg overflow-hidden border border-border group">
-                <img src={img} alt="" className="w-full h-full object-cover" />
-                <button
-                  type="button"
-                  onClick={() => removeImage(index)}
-                  className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center"
-                >
-                  <X className="h-5 w-5 text-white" />
-                </button>
-              </div>
-            ))}
-            <button
-              type="button"
-              onClick={addImageUrl}
-              className="w-20 h-20 rounded-lg border-2 border-dashed border-border hover:border-primary/50 transition-colors flex items-center justify-center"
-            >
-              <Upload className="h-5 w-5 text-muted-foreground" />
-            </button>
-          </div>
-          <p className="text-sm text-muted-foreground">Click the + button to add image URLs</p>
+          <ProductImageUpload
+            images={formData.images}
+            onChange={(images) => handleChange('images', images)}
+          />
         </div>
 
         <div className="bg-card rounded-xl border border-border p-6 space-y-4">
