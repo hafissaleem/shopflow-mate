@@ -77,13 +77,13 @@ export function ProductCard({ product, index = 0 }: ProductCardProps) {
           </div>
         </div>
 
-        <div className="p-4">
+        <div className="p-3 sm:p-4">
           {product.category && (
-            <p className="text-xs text-muted-foreground uppercase tracking-wide mb-1">
+            <p className="text-[10px] sm:text-xs text-muted-foreground uppercase tracking-wide mb-1">
               {product.category.name}
             </p>
           )}
-          <h3 className="font-medium text-foreground line-clamp-2 mb-2">
+          <h3 className="font-medium text-foreground line-clamp-2 mb-1 sm:mb-2 text-xs sm:text-sm md:text-base">
             {product.name}
           </h3>
           
@@ -109,12 +109,12 @@ export function ProductCard({ product, index = 0 }: ProductCardProps) {
           )}
 
           {/* Price */}
-          <div className="flex items-center gap-2">
-            <span className="text-lg font-bold text-foreground">
+          <div className="flex items-center gap-1 sm:gap-2 flex-wrap">
+            <span className="text-sm sm:text-lg font-bold text-foreground">
               {formatCurrency(product.price)}
             </span>
             {product.compare_at_price && (
-              <span className="text-sm text-muted-foreground line-through">
+              <span className="text-xs sm:text-sm text-muted-foreground line-through">
                 {formatCurrency(product.compare_at_price)}
               </span>
             )}

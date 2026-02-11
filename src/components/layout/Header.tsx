@@ -56,15 +56,15 @@ export function Header() {
   };
   return <header className="sticky top-0 z-50 glass border-b border-border/50">
       <div className="container mx-auto px-4">
-        <div className="flex items-center justify-between h-16 lg:h-20">
+        <div className="flex items-center justify-between h-14 sm:h-16 lg:h-20 gap-1 sm:gap-2">
           {/* Back Button */}
           <Button variant="ghost" size="icon" className="text-foreground/80 hover:text-foreground" onClick={() => navigate(-1)}>
             <ArrowLeft className="h-5 w-5" />
           </Button>
 
           {/* Logo */}
-          <Link to="/" className="flex items-center gap-2">
-            <span className="font-display font-bold text-[#ba3b98] text-left text-5xl">Hasna Cycle Center</span>
+          <Link to="/" className="flex items-center gap-2 min-w-0 flex-shrink">
+            <span className="font-display font-bold text-[#ba3b98] text-left text-xl sm:text-2xl md:text-3xl lg:text-5xl truncate">Hasna Cycle Center</span>
           </Link>
 
           {/* Desktop Navigation */}
