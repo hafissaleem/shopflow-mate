@@ -25,6 +25,7 @@ import OrdersPage from "@/pages/dashboard/OrdersPage";
 import AdminDashboard from "@/pages/admin/AdminDashboard";
 import AdminProductsPage from "@/pages/admin/AdminProductsPage";
 import AddProductPage from "@/pages/admin/AddProductPage";
+import EditProductPage from "@/pages/admin/EditProductPage";
 
 import AdminOrdersPage from "@/pages/admin/AdminOrdersPage";
 import AdminCustomersPage from "@/pages/admin/AdminCustomersPage";
@@ -85,7 +86,8 @@ const App = () => (
                 <Route index element={<AdminDashboard />} />
                 <Route path="products" element={<AdminProductsPage />} />
                 <Route path="products/new" element={<AddProductPage />} />
-                
+                <Route path="products/:id/edit" element={<EditProductPage />} />
+
                 <Route path="orders" element={<AdminOrdersPage />} />
                 <Route path="customers" element={<AdminCustomersPage />} />
                 <Route path="payments" element={<AdminPaymentsPage />} />
