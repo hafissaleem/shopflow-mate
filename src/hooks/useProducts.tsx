@@ -11,6 +11,7 @@ export function useProducts(options?: {
   return useQuery({
     queryKey: ['products', options],
     queryFn: async () => {
+      console.log('[useProducts] Fetching products with options:', options);
       let query = supabase
         .from('products')
         .select(`
@@ -47,9 +48,15 @@ export function useProducts(options?: {
 
       const { data, error } = await query;
       
-      if (error) throw error;
-      return data as Product[];
+      if (error) {
+        console.error('[useProducts] Error fetching products:', error);
+        throw error;
+      }
+      console.log('[useProducts] Fetched', data?.length, 'products');
+      return (data ?? []) as Product[];
     },
+    staleTime: 0,
+    refetchOnWindowFocus: true,
   });
 }
 

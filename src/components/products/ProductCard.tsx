@@ -88,14 +88,14 @@ export function ProductCard({ product, index = 0 }: ProductCardProps) {
           </h3>
           
           {/* Rating */}
-          {product.rating > 0 && (
+          {(product.rating ?? 0) > 0 && (
             <div className="flex items-center gap-1 mb-2">
               <div className="flex">
                 {[...Array(5)].map((_, i) => (
                   <Star
                     key={i}
                     className={`h-3.5 w-3.5 ${
-                      i < Math.floor(product.rating)
+                      i < Math.floor(product.rating ?? 0)
                         ? 'text-accent fill-accent'
                         : 'text-muted'
                     }`}
@@ -103,7 +103,7 @@ export function ProductCard({ product, index = 0 }: ProductCardProps) {
                 ))}
               </div>
               <span className="text-xs text-muted-foreground">
-                ({product.review_count})
+                ({product.review_count ?? 0})
               </span>
             </div>
           )}

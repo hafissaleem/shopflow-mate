@@ -6,112 +6,8 @@ import { Button } from '@/components/ui/button';
 import { ProductCard } from '@/components/products/ProductCard';
 import { useProducts, useCategories } from '@/hooks/useProducts';
 
-// Demo products for initial display
-const demoProducts = [{
-  id: '1',
-  name: 'Premium Wireless Headphones',
-  slug: 'premium-wireless-headphones',
-  description: 'High-quality wireless headphones with noise cancellation',
-  price: 299.99,
-  compare_at_price: 399.99,
-  category_id: '1',
-  images: ['https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=600'],
-  stock_quantity: 50,
-  is_featured: true,
-  is_active: true,
-  rating: 4.8,
-  review_count: 124,
-  specifications: {},
-  created_at: new Date().toISOString(),
-  updated_at: new Date().toISOString(),
-  category: {
-    id: '1',
-    name: 'Electronics',
-    slug: 'electronics',
-    description: null,
-    image_url: null,
-    created_at: '',
-    updated_at: ''
-  }
-}, {
-  id: '2',
-  name: 'Minimalist Leather Watch',
-  slug: 'minimalist-leather-watch',
-  description: 'Elegant timepiece with genuine leather strap',
-  price: 189.99,
-  compare_at_price: null,
-  category_id: '2',
-  images: ['https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=600'],
-  stock_quantity: 30,
-  is_featured: true,
-  is_active: true,
-  rating: 4.9,
-  review_count: 89,
-  specifications: {},
-  created_at: new Date().toISOString(),
-  updated_at: new Date().toISOString(),
-  category: {
-    id: '2',
-    name: 'Fashion',
-    slug: 'fashion',
-    description: null,
-    image_url: null,
-    created_at: '',
-    updated_at: ''
-  }
-}, {
-  id: '3',
-  name: 'Smart Fitness Tracker',
-  slug: 'smart-fitness-tracker',
-  description: 'Track your health and fitness goals',
-  price: 149.99,
-  compare_at_price: 199.99,
-  category_id: '1',
-  images: ['https://images.unsplash.com/photo-1575311373937-040b8e1fd6b0?w=600'],
-  stock_quantity: 75,
-  is_featured: true,
-  is_active: true,
-  rating: 4.6,
-  review_count: 203,
-  specifications: {},
-  created_at: new Date().toISOString(),
-  updated_at: new Date().toISOString(),
-  category: {
-    id: '1',
-    name: 'Electronics',
-    slug: 'electronics',
-    description: null,
-    image_url: null,
-    created_at: '',
-    updated_at: ''
-  }
-}, {
-  id: '4',
-  name: 'Designer Sunglasses',
-  slug: 'designer-sunglasses',
-  description: 'UV protection with premium style',
-  price: 129.99,
-  compare_at_price: null,
-  category_id: '2',
-  images: ['https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=600'],
-  stock_quantity: 45,
-  is_featured: false,
-  is_active: true,
-  rating: 4.7,
-  review_count: 67,
-  specifications: {},
-  created_at: new Date().toISOString(),
-  updated_at: new Date().toISOString(),
-  category: {
-    id: '2',
-    name: 'Fashion',
-    slug: 'fashion',
-    description: null,
-    image_url: null,
-    created_at: '',
-    updated_at: ''
-  }
-}];
+
+
 const demoCategories = [{
   id: '1',
   name: 'Electronics',
@@ -152,15 +48,21 @@ const features = [{
 }];
 export default function HomePage() {
   const {
-    data: products
+    data: featuredProducts
   } = useProducts({
     featured: true,
     limit: 8
   });
   const {
+    data: allProducts
+  } = useProducts({
+    limit: 8
+  });
+  const {
     data: categories
   } = useCategories();
-  const displayProducts = products?.length ? products : demoProducts;
+  // Show featured products if any, otherwise show all products
+  const displayProducts = (featuredProducts?.length ? featuredProducts : allProducts) ?? [];
   const displayCategories = categories?.length ? categories : demoCategories;
   return <div>
       {/* Hero Section */}

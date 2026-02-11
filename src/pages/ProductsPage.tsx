@@ -22,120 +22,8 @@ import {
 } from '@/components/ui/sheet';
 import { ProductCard } from '@/components/products/ProductCard';
 import { useProducts, useCategories } from '@/hooks/useProducts';
-import { Product } from '@/lib/supabase-types';
 
-// Demo products
-const demoProducts: Product[] = [
-  {
-    id: '1',
-    name: 'Premium Wireless Headphones',
-    slug: 'premium-wireless-headphones',
-    description: 'High-quality wireless headphones with noise cancellation',
-    price: 299.99,
-    compare_at_price: 399.99,
-    category_id: '1',
-    images: ['https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=600'],
-    stock_quantity: 50,
-    is_featured: true,
-    is_active: true,
-    rating: 4.8,
-    review_count: 124,
-    specifications: {},
-    created_at: new Date().toISOString(),
-    updated_at: new Date().toISOString(),
-  },
-  {
-    id: '2',
-    name: 'Minimalist Leather Watch',
-    slug: 'minimalist-leather-watch',
-    description: 'Elegant timepiece with genuine leather strap',
-    price: 189.99,
-    compare_at_price: null,
-    category_id: '2',
-    images: ['https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=600'],
-    stock_quantity: 30,
-    is_featured: true,
-    is_active: true,
-    rating: 4.9,
-    review_count: 89,
-    specifications: {},
-    created_at: new Date().toISOString(),
-    updated_at: new Date().toISOString(),
-  },
-  {
-    id: '3',
-    name: 'Smart Fitness Tracker',
-    slug: 'smart-fitness-tracker',
-    description: 'Track your health and fitness goals',
-    price: 149.99,
-    compare_at_price: 199.99,
-    category_id: '1',
-    images: ['https://images.unsplash.com/photo-1575311373937-040b8e1fd6b0?w=600'],
-    stock_quantity: 75,
-    is_featured: true,
-    is_active: true,
-    rating: 4.6,
-    review_count: 203,
-    specifications: {},
-    created_at: new Date().toISOString(),
-    updated_at: new Date().toISOString(),
-  },
-  {
-    id: '4',
-    name: 'Designer Sunglasses',
-    slug: 'designer-sunglasses',
-    description: 'UV protection with premium style',
-    price: 129.99,
-    compare_at_price: null,
-    category_id: '2',
-    images: ['https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=600'],
-    stock_quantity: 45,
-    is_featured: false,
-    is_active: true,
-    rating: 4.7,
-    review_count: 67,
-    specifications: {},
-    created_at: new Date().toISOString(),
-    updated_at: new Date().toISOString(),
-  },
-  {
-    id: '5',
-    name: 'Wireless Earbuds Pro',
-    slug: 'wireless-earbuds-pro',
-    description: 'Premium audio experience on the go',
-    price: 179.99,
-    compare_at_price: 229.99,
-    category_id: '1',
-    images: ['https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=600'],
-    stock_quantity: 100,
-    is_featured: true,
-    is_active: true,
-    rating: 4.5,
-    review_count: 156,
-    specifications: {},
-    created_at: new Date().toISOString(),
-    updated_at: new Date().toISOString(),
-  },
-  {
-    id: '6',
-    name: 'Leather Messenger Bag',
-    slug: 'leather-messenger-bag',
-    description: 'Handcrafted genuine leather bag',
-    price: 249.99,
-    compare_at_price: null,
-    category_id: '2',
-    images: ['https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=600'],
-    stock_quantity: 25,
-    is_featured: false,
-    is_active: true,
-    rating: 4.8,
-    review_count: 45,
-    specifications: {},
-    created_at: new Date().toISOString(),
-    updated_at: new Date().toISOString(),
-  },
-];
-
+// Sort options
 const sortOptions = [
   { value: 'newest', label: 'Newest' },
   { value: 'price-low', label: 'Price: Low to High' },
@@ -162,7 +50,7 @@ export default function ProductsPage() {
 
   const { data: categories } = useCategories();
 
-  const displayProducts = products?.length ? products : demoProducts;
+const displayProducts = products ?? [];
 
   // Filter and sort products
   const filteredProducts = displayProducts
@@ -173,7 +61,7 @@ export default function ProductsPage() {
         }
       }
       if (selectedRatings.length > 0) {
-        const productRating = Math.floor(product.rating);
+        const productRating = Math.floor(product.rating ?? 0);
         if (!selectedRatings.includes(productRating)) {
           return false;
         }
@@ -187,9 +75,9 @@ export default function ProductsPage() {
         case 'price-high':
           return b.price - a.price;
         case 'rating':
-          return b.rating - a.rating;
+          return (b.rating ?? 0) - (a.rating ?? 0);
         case 'popular':
-          return b.review_count - a.review_count;
+          return (b.review_count ?? 0) - (a.review_count ?? 0);
         default:
           return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
       }
