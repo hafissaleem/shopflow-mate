@@ -64,11 +64,11 @@ export default function HomePage() {
   // Show featured products if any, otherwise show all products
   const displayProducts = (featuredProducts?.length ? featuredProducts : allProducts) ?? [];
   const displayCategories = categories?.length ? categories : demoCategories;
-  return <div>
+  return <div className="overflow-x-hidden">
       {/* Hero Section */}
       <section className="hero-gradient text-primary-foreground overflow-hidden">
-        <div className="container mx-auto px-4 py-16 lg:py-24">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
+        <div className="container mx-auto px-4 py-10 sm:py-16 lg:py-24">
+          <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
             <motion.div initial={{
             opacity: 0,
             x: -30
@@ -81,10 +81,10 @@ export default function HomePage() {
               <span className="inline-block px-4 py-1.5 rounded-full bg-accent/20 text-accent text-sm font-medium mb-6">
                 New Collection 2024
               </span>
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-6 leading-tight">
+              <h1 className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-display font-bold mb-4 sm:mb-6 leading-tight">
                 Discover Premium Products for Modern Living
               </h1>
-              <p className="text-lg text-primary-foreground/80 mb-8 max-w-lg">
+              <p className="text-sm sm:text-base lg:text-lg text-primary-foreground/80 mb-6 sm:mb-8 max-w-lg">
                 Curated selection of high-quality products designed to elevate your lifestyle. 
                 Experience luxury at accessible prices.
               </p>
@@ -123,7 +123,7 @@ export default function HomePage() {
       {/* Features */}
       <section className="border-b border-border">
         <div className="container mx-auto px-4 py-8">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
             {features.map((feature, index) => <motion.div key={feature.title} initial={{
             opacity: 0,
             y: 20
@@ -132,13 +132,13 @@ export default function HomePage() {
             y: 0
           }} transition={{
             delay: index * 0.1
-          }} className="flex items-center gap-4">
-                <div className="flex-shrink-0 h-12 w-12 rounded-full bg-accent/10 flex items-center justify-center">
-                  <feature.icon className="h-6 w-6 text-accent" />
+          }} className="flex items-center gap-3 sm:gap-4">
+                <div className="flex-shrink-0 h-10 w-10 sm:h-12 sm:w-12 rounded-full bg-accent/10 flex items-center justify-center">
+                  <feature.icon className="h-5 w-5 sm:h-6 sm:w-6 text-accent" />
                 </div>
                 <div>
-                  <h3 className="font-semibold text-sm">{feature.title}</h3>
-                  <p className="text-sm text-muted-foreground">{feature.description}</p>
+                  <h3 className="font-semibold text-xs sm:text-sm">{feature.title}</h3>
+                  <p className="text-xs sm:text-sm text-muted-foreground">{feature.description}</p>
                 </div>
               </motion.div>)}
           </div>
@@ -147,14 +147,14 @@ export default function HomePage() {
 
       {/* Featured Products - Prominent Section */}
       {displayProducts.length > 0 && (
-        <section className="py-16 lg:py-24 bg-gradient-to-b from-accent/5 to-background">
+        <section className="py-10 sm:py-16 lg:py-24 bg-gradient-to-b from-accent/5 to-background">
           <div className="container mx-auto px-4">
-            <div className="flex items-end justify-between mb-12">
+            <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-8 sm:mb-12 gap-4">
               <div>
                 <span className="inline-block px-3 py-1 rounded-full bg-accent/10 text-accent text-xs font-semibold uppercase tracking-wider mb-3">
                   ⭐ Top Picks
                 </span>
-                <h2 className="text-3xl lg:text-4xl font-display font-bold mb-2">
+                <h2 className="text-2xl sm:text-3xl lg:text-4xl font-display font-bold mb-2">
                   Featured Products
                 </h2>
                 <p className="text-muted-foreground max-w-2xl">
@@ -167,7 +167,7 @@ export default function HomePage() {
                 </Button>
               </Link>
             </div>
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-6">
               {displayProducts.slice(0, 8).map((product, index) => <ProductCard key={product.id} product={product} index={index} />)}
             </div>
             <div className="mt-8 text-center md:hidden">
@@ -182,17 +182,17 @@ export default function HomePage() {
       )}
 
       {/* Categories */}
-      <section className="py-16 lg:py-24 bg-secondary/30">
+      <section className="py-10 sm:py-16 lg:py-24 bg-secondary/30">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl lg:text-4xl font-display font-bold mb-4">
+          <div className="text-center mb-8 sm:mb-12">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-display font-bold mb-4">
               Shop by Category
             </h2>
             <p className="text-muted-foreground max-w-2xl mx-auto">
               Browse our curated collection across various categories
             </p>
           </div>
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-6">
             {displayCategories.slice(0, 4).map((category, index) => <motion.div key={category.id || index} initial={{
             opacity: 0,
             y: 20
