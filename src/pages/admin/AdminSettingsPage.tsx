@@ -101,7 +101,7 @@ export default function AdminSettingsPage() {
     },
   });
 
-  // Load WhatsApp settings from DB
+  // Load settings from DB
   useEffect(() => {
     if (dbSettings && Array.isArray(dbSettings)) {
       const settingsMap: Record<string, string> = {};
@@ -114,6 +114,19 @@ export default function AdminSettingsPage() {
         adminLabel: settingsMap['whatsapp_admin_label'] || 'Send Order via WhatsApp',
         customerCareLabel: settingsMap['whatsapp_customer_care_label'] || 'Customer Care',
       });
+      setShippingSettings({
+        enableFreeShipping: settingsMap['shipping_enable_free'] !== 'false',
+        freeShippingThreshold: Number(settingsMap['shipping_free_threshold']) || 1000,
+        flatShippingRate: Number(settingsMap['shipping_flat_rate']) || 50,
+        processingTime: settingsMap['shipping_processing_time'] || '1-2 business days',
+      });
+      setTaxSettings(prev => ({
+        ...prev,
+        enableTax: settingsMap['tax_enabled'] !== 'false',
+        taxRate: Number(settingsMap['tax_rate']) || 18,
+        taxName: settingsMap['tax_name'] || 'GST',
+        taxIncludedInPrice: settingsMap['tax_included_in_price'] === 'true',
+      }));
     }
   }, [dbSettings]);
 
@@ -197,6 +210,56 @@ export default function AdminSettingsPage() {
       toast.error('Failed to save WhatsApp settings. Please try again.');
     } finally {
       setIsSavingWhatsapp(false);
+    }
+  };
+
+  const handleSaveShipping = async () => {
+    setIsSaving(true);
+    try {
+      const updates = [
+        { key: 'shipping_enable_free', value: String(shippingSettings.enableFreeShipping) },
+        { key: 'shipping_free_threshold', value: String(shippingSettings.freeShippingThreshold) },
+        { key: 'shipping_flat_rate', value: String(shippingSettings.flatShippingRate) },
+        { key: 'shipping_processing_time', value: shippingSettings.processingTime },
+      ];
+      for (const update of updates) {
+        const { error } = await supabase
+          .from('store_settings')
+          .upsert({ key: update.key, value: update.value }, { onConflict: 'key' });
+        if (error) throw error;
+      }
+      queryClient.invalidateQueries({ queryKey: ['store-settings'] });
+      toast.success('Shipping settings saved successfully!');
+    } catch (error) {
+      if (import.meta.env.DEV) console.error('Save shipping error:', error);
+      toast.error('Failed to save shipping settings.');
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
+  const handleSaveTax = async () => {
+    setIsSaving(true);
+    try {
+      const updates = [
+        { key: 'tax_enabled', value: String(taxSettings.enableTax) },
+        { key: 'tax_rate', value: String(taxSettings.taxRate) },
+        { key: 'tax_name', value: taxSettings.taxName },
+        { key: 'tax_included_in_price', value: String(taxSettings.taxIncludedInPrice) },
+      ];
+      for (const update of updates) {
+        const { error } = await supabase
+          .from('store_settings')
+          .upsert({ key: update.key, value: update.value }, { onConflict: 'key' });
+        if (error) throw error;
+      }
+      queryClient.invalidateQueries({ queryKey: ['store-settings'] });
+      toast.success('Tax settings saved successfully!');
+    } catch (error) {
+      if (import.meta.env.DEV) console.error('Save tax error:', error);
+      toast.error('Failed to save tax settings.');
+    } finally {
+      setIsSaving(false);
     }
   };
 
@@ -643,6 +706,12 @@ export default function AdminSettingsPage() {
                   className="max-w-[300px]"
                 />
               </div>
+              <div className="pt-4">
+                <Button onClick={handleSaveShipping} disabled={isSaving} className="btn-accent gap-2">
+                  <Save className="h-4 w-4" />
+                  {isSaving ? 'Saving...' : 'Save Shipping Settings'}
+                </Button>
+              </div>
             </CardContent>
           </Card>
         </TabsContent>
@@ -699,6 +768,12 @@ export default function AdminSettingsPage() {
                   </div>
                 </>
               )}
+              <div className="pt-4">
+                <Button onClick={handleSaveTax} disabled={isSaving} className="btn-accent gap-2">
+                  <Save className="h-4 w-4" />
+                  {isSaving ? 'Saving...' : 'Save Tax Settings'}
+                </Button>
+              </div>
             </CardContent>
           </Card>
         </TabsContent>
