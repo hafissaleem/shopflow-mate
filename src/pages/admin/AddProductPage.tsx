@@ -171,10 +171,13 @@ export default function AddProductPage() {
     setLoading(false);
 
     if (error) {
-      if (import.meta.env.DEV) console.error('Error adding product:', error);
+      console.error('Error adding product:', error);
+      const description = error.code === '23505'
+        ? 'A product with this slug already exists. Please use a different name or slug.'
+        : `Failed to add product: ${error.message}`;
       toast({
         title: 'Error',
-        description: 'Failed to add product. Please try again.',
+        description,
         variant: 'destructive',
       });
     } else {
