@@ -145,6 +145,42 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* Featured Products - Prominent Section */}
+      {displayProducts.length > 0 && (
+        <section className="py-16 lg:py-24 bg-gradient-to-b from-accent/5 to-background">
+          <div className="container mx-auto px-4">
+            <div className="flex items-end justify-between mb-12">
+              <div>
+                <span className="inline-block px-3 py-1 rounded-full bg-accent/10 text-accent text-xs font-semibold uppercase tracking-wider mb-3">
+                  ⭐ Top Picks
+                </span>
+                <h2 className="text-3xl lg:text-4xl font-display font-bold mb-2">
+                  Featured Products
+                </h2>
+                <p className="text-muted-foreground max-w-2xl">
+                  Handpicked selections our customers love
+                </p>
+              </div>
+              <Link to="/products?featured=true" className="hidden md:flex">
+                <Button variant="outline" className="gap-2">
+                  View All <ArrowRight className="h-4 w-4" />
+                </Button>
+              </Link>
+            </div>
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
+              {displayProducts.slice(0, 8).map((product, index) => <ProductCard key={product.id} product={product} index={index} />)}
+            </div>
+            <div className="mt-8 text-center md:hidden">
+              <Link to="/products?featured=true">
+                <Button variant="outline" className="gap-2">
+                  View All <ArrowRight className="h-4 w-4" />
+                </Button>
+              </Link>
+            </div>
+          </div>
+        </section>
+      )}
+
       {/* Categories */}
       <section className="py-16 lg:py-24 bg-secondary/30">
         <div className="container mx-auto px-4">
@@ -179,37 +215,6 @@ export default function HomePage() {
                   </div>
                 </Link>
               </motion.div>)}
-          </div>
-        </div>
-      </section>
-
-      {/* Featured Products */}
-      <section className="py-16 lg:py-24">
-        <div className="container mx-auto px-4">
-          <div className="flex items-end justify-between mb-12">
-            <div>
-              <h2 className="text-3xl lg:text-4xl font-display font-bold mb-4">
-                Featured Products
-              </h2>
-              <p className="text-muted-foreground max-w-2xl">
-                Handpicked selections our customers love
-              </p>
-            </div>
-            <Link to="/products?featured=true" className="hidden md:flex">
-              <Button variant="outline" className="gap-2">
-                View All <ArrowRight className="h-4 w-4" />
-              </Button>
-            </Link>
-          </div>
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
-            {displayProducts.slice(0, 8).map((product, index) => <ProductCard key={product.id} product={product} index={index} />)}
-          </div>
-          <div className="mt-8 text-center md:hidden">
-            <Link to="/products?featured=true">
-              <Button variant="outline" className="gap-2">
-                View All <ArrowRight className="h-4 w-4" />
-              </Button>
-            </Link>
           </div>
         </div>
       </section>
