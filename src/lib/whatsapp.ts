@@ -87,10 +87,15 @@ export function formatOrderForWhatsApp(order: OrderDetails): string {
  * Generate a WhatsApp link with pre-filled message
  */
 export function generateWhatsAppLink(phoneNumber: string, message: string): string {
-  // Strip to digits only for wa.me format
   const number = phoneNumber.replace(/\D/g, '');
+  if (!number || number.length < 10 || number.length > 15) {
+    console.warn('[WhatsApp] Invalid number after cleaning:', phoneNumber, '→', number);
+    return '';
+  }
   const encodedMessage = encodeURIComponent(message);
-  return `https://wa.me/${number}?text=${encodedMessage}`;
+  const link = `https://wa.me/${number}?text=${encodedMessage}`;
+  console.log('[WhatsApp] Generated link:', link);
+  return link;
 }
 
 /**
