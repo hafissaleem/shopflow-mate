@@ -29,56 +29,62 @@ interface OrderDetails {
 }
 
 /**
- * Format order details into a clean WhatsApp message
+ * Format order details into a friendly, professional WhatsApp message
  */
 export function formatOrderForWhatsApp(order: OrderDetails): string {
   const lines: string[] = [];
 
-  lines.push('🛒 *NEW ORDER*');
-  lines.push(`📋 Order: *${order.orderNumber}*`);
+  // Recalculate total to ensure accuracy
+  const correctTotal = order.subtotal + order.tax + order.shipping;
+
+  lines.push('*New Order Received*');
+  lines.push(`Order No: *${order.orderNumber}*`);
   lines.push('');
 
-  // Customer info
-  lines.push('👤 *Customer Details:*');
+  // Customer Details
+  lines.push('*Customer Details*');
   lines.push(`Name: ${order.shippingAddress.full_name}`);
   lines.push(`Phone: ${order.shippingAddress.phone}`);
   lines.push('');
 
-  // Delivery address
-  lines.push('📍 *Delivery Address:*');
-  lines.push(order.shippingAddress.address_line1);
+  // Delivery Address
+  lines.push('*Delivery Address*');
+  const addressParts = [order.shippingAddress.address_line1];
   if (order.shippingAddress.address_line2) {
-    lines.push(order.shippingAddress.address_line2);
+    addressParts.push(order.shippingAddress.address_line2);
   }
-  lines.push(`${order.shippingAddress.city}, ${order.shippingAddress.state} ${order.shippingAddress.postal_code}`);
+  addressParts.push(`${order.shippingAddress.city}, ${order.shippingAddress.state} ${order.shippingAddress.postal_code}`);
+  lines.push(addressParts.join(', '));
   lines.push('');
 
-  // Items
-  lines.push('📦 *Order Items:*');
+  // Order Items
+  lines.push('*Order Items*');
   order.items.forEach((item, index) => {
+    const itemTotal = item.unit_price * item.quantity;
     lines.push(`${index + 1}. ${item.product_name}`);
-    lines.push(`   Qty: ${item.quantity} × ${formatCurrency(item.unit_price)} = ${formatCurrency(item.total_price)}`);
+    lines.push(`   ${item.quantity} x ${formatCurrency(item.unit_price)} = ${formatCurrency(itemTotal)}`);
   });
   lines.push('');
 
-  // Totals
-  lines.push('💰 *Order Summary:*');
+  // Order Summary
+  lines.push('*Order Summary*');
   lines.push(`Subtotal: ${formatCurrency(order.subtotal)}`);
   if (order.tax > 0) {
     lines.push(`Tax: ${formatCurrency(order.tax)}`);
   }
   lines.push(`Shipping: ${order.shipping === 0 ? 'Free' : formatCurrency(order.shipping)}`);
-  lines.push(`*Total: ${formatCurrency(order.total)}*`);
+  lines.push(`Total: *${formatCurrency(correctTotal)}*`);
+  lines.push('');
+  lines.push(`Payment: Cash on Delivery`);
 
   // Notes
   if (order.notes?.trim()) {
     lines.push('');
-    lines.push(`📝 *Notes:* ${order.notes}`);
+    lines.push(`Note: ${order.notes}`);
   }
 
   lines.push('');
-  lines.push('---');
-  lines.push('_Sent from Hasna Cycle Center website_');
+  lines.push('Thank you! We will contact you soon to confirm your order.');
 
   return lines.join('\n');
 }
@@ -89,13 +95,11 @@ export function formatOrderForWhatsApp(order: OrderDetails): string {
 export function generateWhatsAppLink(phoneNumber: string, message: string): string {
   const number = phoneNumber.replace(/\D/g, '');
   if (!number || number.length < 10 || number.length > 15) {
-    console.warn('[WhatsApp] Invalid number after cleaning:', phoneNumber, '→', number);
+    if (import.meta.env.DEV) console.warn('[WhatsApp] Invalid number:', phoneNumber);
     return '';
   }
   const encodedMessage = encodeURIComponent(message);
-  const link = `https://wa.me/${number}?text=${encodedMessage}`;
-  console.log('[WhatsApp] Generated link:', link);
-  return link;
+  return `https://wa.me/${number}?text=${encodedMessage}`;
 }
 
 /**
