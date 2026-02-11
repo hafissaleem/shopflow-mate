@@ -1,5 +1,6 @@
 import { useState, useEffect, useMemo } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import CategoryImageUpload from "./CategoryImageUpload";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -55,12 +56,14 @@ interface CategoryFormData {
   name: string;
   description: string;
   is_active: boolean;
+  image_url: string | null;
 }
 
 const initialFormData: CategoryFormData = {
   name: "",
   description: "",
   is_active: true,
+  image_url: null,
 };
 
 interface CategoriesPanelProps {
@@ -168,6 +171,7 @@ export function CategoriesPanel({ open, onOpenChange }: CategoriesPanelProps) {
       name: category.name,
       description: category.description || "",
       is_active: category.is_active,
+      image_url: category.image_url,
     });
     setFormErrors({});
     setIsFormOpen(true);
@@ -192,6 +196,7 @@ export function CategoriesPanel({ open, onOpenChange }: CategoriesPanelProps) {
           slug,
           description: formData.description.trim() || null,
           is_active: formData.is_active,
+          image_url: formData.image_url,
         })
         .eq("id", editingCategory.id);
       
@@ -218,6 +223,7 @@ export function CategoriesPanel({ open, onOpenChange }: CategoriesPanelProps) {
           slug,
           description: formData.description.trim() || null,
           is_active: formData.is_active,
+          image_url: formData.image_url,
         }]);
       
       setSaving(false);
@@ -360,6 +366,16 @@ export function CategoriesPanel({ open, onOpenChange }: CategoriesPanelProps) {
                       className="group p-4 bg-secondary/30 hover:bg-secondary/50 rounded-lg border border-border/50 transition-colors"
                     >
                       <div className="flex items-start justify-between gap-3">
+                        {/* Category Thumbnail */}
+                        <div className="flex-shrink-0 h-12 w-12 rounded-lg overflow-hidden bg-secondary border border-border">
+                          {category.image_url ? (
+                            <img src={category.image_url} alt={category.name} className="w-full h-full object-cover" />
+                          ) : (
+                            <div className="w-full h-full flex items-center justify-center text-muted-foreground">
+                              <FolderOpen className="h-5 w-5" />
+                            </div>
+                          )}
+                        </div>
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center gap-2 mb-1">
                             <h4 className="font-medium truncate">{category.name}</h4>
@@ -429,6 +445,14 @@ export function CategoriesPanel({ open, onOpenChange }: CategoriesPanelProps) {
             </DialogDescription>
           </DialogHeader>
           <div className="space-y-4 py-4">
+            {/* Category Image */}
+            <div className="space-y-2">
+              <Label>Category Image</Label>
+              <CategoryImageUpload
+                imageUrl={formData.image_url}
+                onChange={(url) => setFormData((prev) => ({ ...prev, image_url: url }))}
+              />
+            </div>
             <div className="space-y-2">
               <Label htmlFor="name">
                 Name <span className="text-destructive">*</span>
