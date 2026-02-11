@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { CheckCircle2 } from 'lucide-react';
 import { useCart } from '@/hooks/useCart';
 import { useAuth } from '@/hooks/useAuth';
+import { useStoreSettings } from '@/hooks/useStoreSettings';
 import { supabase } from '@/integrations/supabase/client';
 import { generateOrderNumber } from '@/lib/utils';
 import { toast } from 'sonner';
@@ -14,6 +15,7 @@ export default function CheckoutPage() {
   const navigate = useNavigate();
   const { items, subtotal, clearCart } = useCart();
   const { user } = useAuth();
+  const { settings } = useStoreSettings();
   const [isLoading, setIsLoading] = useState(false);
   const [step, setStep] = useState<'shipping' | 'confirmation'>('shipping');
   const [orderNotes, setOrderNotes] = useState('');
@@ -37,8 +39,13 @@ export default function CheckoutPage() {
     total_price: number;
   }[]>([]);
 
-  const tax = subtotal * 0.1;
-  const shipping = subtotal > 100 ? 0 : 9.99;
+  // Dynamic tax & shipping from admin settings
+  const taxRate = settings.tax_enabled !== 'false' ? Number(settings.tax_rate) / 100 : 0;
+  const tax = subtotal * taxRate;
+  const freeShippingEnabled = settings.shipping_enable_free !== 'false';
+  const freeShippingThreshold = Number(settings.shipping_free_threshold) || 1000;
+  const flatRate = Number(settings.shipping_flat_rate) || 50;
+  const shipping = freeShippingEnabled && subtotal >= freeShippingThreshold ? 0 : flatRate;
   const total = subtotal + tax + shipping;
 
   const handleShippingSubmit = async (e: React.FormEvent) => {

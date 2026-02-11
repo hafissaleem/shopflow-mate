@@ -6,6 +6,14 @@ interface StoreSettings {
   whatsapp_customer_care_number: string;
   whatsapp_admin_label: string;
   whatsapp_customer_care_label: string;
+  shipping_enable_free: string;
+  shipping_free_threshold: string;
+  shipping_flat_rate: string;
+  shipping_processing_time: string;
+  tax_enabled: string;
+  tax_rate: string;
+  tax_name: string;
+  tax_included_in_price: string;
   [key: string]: string;
 }
 
@@ -14,6 +22,14 @@ const DEFAULT_SETTINGS: StoreSettings = {
   whatsapp_customer_care_number: '',
   whatsapp_admin_label: 'Send Order via WhatsApp',
   whatsapp_customer_care_label: 'Customer Care',
+  shipping_enable_free: 'true',
+  shipping_free_threshold: '1000',
+  shipping_flat_rate: '50',
+  shipping_processing_time: '1-2 business days',
+  tax_enabled: 'true',
+  tax_rate: '18',
+  tax_name: 'GST',
+  tax_included_in_price: 'false',
 };
 
 export function useStoreSettings() {
