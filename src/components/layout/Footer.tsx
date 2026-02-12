@@ -10,12 +10,12 @@ export function Footer() {
       </div>
 
       {/* Main Footer */}
-      <div className="container mx-auto px-4 py-12">
+      <div className="container mx-auto px-4 py-8 sm:py-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* Brand */}
           <div>
             <Link to="/" className="inline-flex items-center gap-2 mb-4">
-               <span className="text-2xl font-display font-bold">Hasna Cycle Center</span>
+               <span className="text-xl sm:text-2xl font-display font-bold">Hasna Cycle Center</span>
             </Link>
             <p className="text-primary-foreground/70 text-sm mb-4">
               Discover premium products curated for the modern lifestyle. Quality meets elegance.

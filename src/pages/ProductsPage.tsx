@@ -180,7 +180,7 @@ const displayProducts = products ?? [];
       {/* Header */}
       <div className="bg-secondary/30 py-8 border-b border-border">
         <div className="container mx-auto px-4">
-          <h1 className="text-3xl font-display font-bold mb-2">
+          <h1 className="text-2xl sm:text-3xl font-display font-bold mb-2">
             {categorySlug ? categorySlug.charAt(0).toUpperCase() + categorySlug.slice(1) : 'All Products'}
           </h1>
           {searchQuery && (
@@ -235,7 +235,7 @@ const displayProducts = products ?? [];
               <div className="flex items-center gap-4">
                 {/* Sort */}
                 <Select value={sortBy} onValueChange={setSortBy}>
-                  <SelectTrigger className="w-44">
+                  <SelectTrigger className="w-32 sm:w-44 text-xs sm:text-sm">
                     <SelectValue placeholder="Sort by" />
                   </SelectTrigger>
                   <SelectContent>
