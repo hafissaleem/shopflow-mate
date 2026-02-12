@@ -130,7 +130,7 @@ export default function CheckoutPage() {
     <div className="min-h-screen bg-secondary/30">
       <div className="container mx-auto px-4 py-8">
         {/* Progress Steps */}
-        <div className="flex items-center justify-center mb-12">
+        <div className="flex items-center justify-center mb-8 sm:mb-12">
           {['Your Details', 'Confirmation'].map((label, index) => {
             const stepIndex = ['shipping', 'confirmation'].indexOf(step);
             const isActive = index <= stepIndex;
@@ -138,29 +138,29 @@ export default function CheckoutPage() {
             
             return (
               <div key={label} className="flex items-center">
-                <div className={`flex items-center justify-center h-10 w-10 rounded-full border-2 font-medium transition-colors ${
+                <div className={`flex items-center justify-center h-8 w-8 sm:h-10 sm:w-10 rounded-full border-2 font-medium text-sm sm:text-base transition-colors ${
                   isActive 
                     ? 'bg-accent border-accent text-white' 
                     : 'border-border text-muted-foreground'
                 }`}>
                   {isActive && index < stepIndex ? (
-                    <CheckCircle2 className="h-5 w-5" />
+                    <CheckCircle2 className="h-4 w-4 sm:h-5 sm:w-5" />
                   ) : (
                     index + 1
                   )}
                 </div>
-                <span className={`ml-2 text-sm font-medium ${isCurrent ? 'text-foreground' : 'text-muted-foreground'}`}>
+                <span className={`ml-1.5 sm:ml-2 text-xs sm:text-sm font-medium ${isCurrent ? 'text-foreground' : 'text-muted-foreground'}`}>
                   {label}
                 </span>
                 {index < 1 && (
-                  <div className={`w-16 h-0.5 mx-4 ${index < stepIndex ? 'bg-accent' : 'bg-border'}`} />
+                  <div className={`w-8 sm:w-16 h-0.5 mx-2 sm:mx-4 ${index < stepIndex ? 'bg-accent' : 'bg-border'}`} />
                 )}
               </div>
             );
           })}
         </div>
 
-        <div className="grid lg:grid-cols-3 gap-8">
+        <div className="grid lg:grid-cols-3 gap-6 sm:gap-8">
           {/* Main Content */}
           <div className="lg:col-span-2">
             {step === 'shipping' && (

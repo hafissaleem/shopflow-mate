@@ -77,15 +77,15 @@ export function OrderConfirmation({
     <motion.div
       initial={{ opacity: 0, scale: 0.95 }}
       animate={{ opacity: 1, scale: 1 }}
-      className="bg-card rounded-xl p-8 shadow-sm"
+      className="bg-card rounded-xl p-4 sm:p-8 shadow-sm"
     >
       {/* Success Header */}
-      <div className="text-center mb-8">
-        <div className="h-20 w-20 rounded-full bg-success/10 flex items-center justify-center mx-auto mb-6">
-          <CheckCircle2 className="h-10 w-10 text-success" />
+      <div className="text-center mb-6 sm:mb-8">
+        <div className="h-16 w-16 sm:h-20 sm:w-20 rounded-full bg-success/10 flex items-center justify-center mx-auto mb-4 sm:mb-6">
+          <CheckCircle2 className="h-8 w-8 sm:h-10 sm:w-10 text-success" />
         </div>
-        <h2 className="text-2xl font-display font-bold mb-2">Order Submitted!</h2>
-        <p className="text-muted-foreground">
+        <h2 className="text-xl sm:text-2xl font-display font-bold mb-2">Order Submitted!</h2>
+        <p className="text-sm sm:text-base text-muted-foreground">
           Your order has been saved. To confirm it, please send the details to our admin via WhatsApp.
         </p>
         <div className="bg-secondary/50 rounded-lg p-4 inline-block mt-4">

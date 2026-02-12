@@ -20,7 +20,7 @@ export function WhatsAppFloatingButton() {
 
   return (
     <motion.div
-      className="fixed bottom-6 right-6 z-50 flex items-center gap-3"
+      className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50 flex items-center gap-3"
       initial={{ scale: 0, opacity: 0 }}
       animate={{ scale: 1, opacity: 1 }}
       transition={{ delay: 1, type: 'spring', stiffness: 200 }}
@@ -46,7 +46,7 @@ export function WhatsAppFloatingButton() {
         target="_blank"
         rel="noopener noreferrer"
         aria-label={`Contact ${label} on WhatsApp`}
-        className="relative z-10 flex items-center justify-center h-14 w-14 rounded-full shadow-lg transition-transform hover:scale-110 cursor-pointer"
+        className="relative z-10 flex items-center justify-center h-12 w-12 sm:h-14 sm:w-14 rounded-full shadow-lg transition-transform hover:scale-110 cursor-pointer"
         style={{ backgroundColor: '#25D366' }}
       >
         <MessageCircle className="h-7 w-7 text-white" fill="white" />

@@ -85,17 +85,17 @@ export default function ProductDetailPage() {
     <div className="min-h-screen">
       <div className="container mx-auto px-4 py-8">
         {/* Breadcrumb */}
-        <nav className="mb-8 text-sm">
-          <ol className="flex items-center gap-2 text-muted-foreground">
+        <nav className="mb-4 sm:mb-8 text-sm overflow-x-auto">
+          <ol className="flex items-center gap-2 text-muted-foreground whitespace-nowrap">
             <li><a href="/" className="hover:text-foreground">Home</a></li>
             <li>/</li>
             <li><a href="/products" className="hover:text-foreground">Products</a></li>
             <li>/</li>
-            <li className="text-foreground">{displayProduct.name}</li>
+            <li className="text-foreground truncate max-w-[150px] sm:max-w-none">{displayProduct.name}</li>
           </ol>
         </nav>
 
-        <div className="grid lg:grid-cols-2 gap-12">
+        <div className="grid lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-12">
           {/* Image Gallery */}
           <div className="space-y-4">
             <div className="relative aspect-square rounded-2xl overflow-hidden bg-secondary">
@@ -141,12 +141,12 @@ export default function ProductDetailPage() {
 
             {/* Thumbnails */}
             {images.length > 1 && (
-              <div className="flex gap-3">
+              <div className="flex gap-2 sm:gap-3 overflow-x-auto pb-2">
                 {images.map((image, index) => (
                   <button
                     key={index}
                     onClick={() => setCurrentImageIndex(index)}
-                    className={`w-20 h-20 rounded-lg overflow-hidden border-2 transition-colors ${
+                    className={`w-16 h-16 sm:w-20 sm:h-20 rounded-lg overflow-hidden border-2 transition-colors flex-shrink-0 ${
                       index === currentImageIndex ? 'border-accent' : 'border-transparent'
                     }`}
                   >
@@ -165,7 +165,7 @@ export default function ProductDetailPage() {
               </p>
             )}
             
-            <h1 className="text-3xl lg:text-4xl font-display font-bold mb-4">
+            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-display font-bold mb-3 sm:mb-4">
               {displayProduct.name}
             </h1>
 
@@ -189,8 +189,8 @@ export default function ProductDetailPage() {
             </div>
 
             {/* Price */}
-            <div className="flex items-baseline gap-3 mb-6">
-              <span className="text-3xl font-bold">
+            <div className="flex items-baseline gap-2 sm:gap-3 mb-4 sm:mb-6 flex-wrap">
+              <span className="text-2xl sm:text-3xl font-bold">
                 {formatCurrency(displayProduct.price)}
               </span>
               {displayProduct.compare_at_price && (
@@ -293,24 +293,24 @@ export default function ProductDetailPage() {
         </div>
 
         {/* Tabs */}
-        <div className="mt-16">
+        <div className="mt-8 sm:mt-16">
           <Tabs defaultValue="description">
-            <TabsList className="w-full justify-start border-b rounded-none h-auto p-0 bg-transparent">
+            <TabsList className="w-full justify-start border-b rounded-none h-auto p-0 bg-transparent overflow-x-auto">
               <TabsTrigger 
                 value="description"
-                className="rounded-none border-b-2 border-transparent data-[state=active]:border-accent data-[state=active]:bg-transparent px-6 py-3"
+                className="rounded-none border-b-2 border-transparent data-[state=active]:border-accent data-[state=active]:bg-transparent px-3 sm:px-6 py-3 text-xs sm:text-sm"
               >
                 Description
               </TabsTrigger>
               <TabsTrigger 
                 value="specifications"
-                className="rounded-none border-b-2 border-transparent data-[state=active]:border-accent data-[state=active]:bg-transparent px-6 py-3"
+                className="rounded-none border-b-2 border-transparent data-[state=active]:border-accent data-[state=active]:bg-transparent px-3 sm:px-6 py-3 text-xs sm:text-sm"
               >
-                Specifications
+                Specs
               </TabsTrigger>
               <TabsTrigger 
                 value="reviews"
-                className="rounded-none border-b-2 border-transparent data-[state=active]:border-accent data-[state=active]:bg-transparent px-6 py-3"
+                className="rounded-none border-b-2 border-transparent data-[state=active]:border-accent data-[state=active]:bg-transparent px-3 sm:px-6 py-3 text-xs sm:text-sm"
               >
                 Reviews ({displayProduct.review_count})
               </TabsTrigger>
@@ -341,9 +341,9 @@ export default function ProductDetailPage() {
         </div>
 
         {/* Related Products */}
-        <div className="mt-16">
-          <h2 className="text-2xl font-display font-bold mb-8">You May Also Like</h2>
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
+        <div className="mt-8 sm:mt-16">
+          <h2 className="text-xl sm:text-2xl font-display font-bold mb-6 sm:mb-8">You May Also Like</h2>
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-6">
             {(relatedProducts || []).slice(0, 4).map((product, index) => (
               <ProductCard key={product.id} product={product} index={index} />
             ))}
