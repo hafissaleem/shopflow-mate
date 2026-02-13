@@ -116,7 +116,7 @@ export default function AdminCustomersPage() {
 
   return (
     <div>
-      <h1 className="text-3xl font-display font-bold mb-8">Customers</h1>
+      <h1 className="text-xl sm:text-3xl font-display font-bold mb-4 sm:mb-8">Customers</h1>
 
       <div className="bg-card rounded-xl border border-border overflow-hidden">
         <div className="p-4 border-b border-border">
@@ -196,7 +196,7 @@ export default function AdminCustomersPage() {
           </DialogHeader>
           {selectedCustomer && (
             <div className="space-y-6">
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <p className="text-sm text-muted-foreground">Name</p>
                   <p className="font-medium">{selectedCustomer.full_name || 'N/A'}</p>
@@ -215,7 +215,7 @@ export default function AdminCustomersPage() {
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 gap-4 p-4 bg-secondary/30 rounded-lg">
+              <div className="grid grid-cols-2 gap-4 p-3 sm:p-4 bg-secondary/30 rounded-lg">
                 <div className="text-center">
                   <p className="text-2xl font-bold">{selectedCustomer.total_orders}</p>
                   <p className="text-sm text-muted-foreground">Total Orders</p>

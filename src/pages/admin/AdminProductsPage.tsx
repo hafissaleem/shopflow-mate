@@ -49,10 +49,10 @@ export default function AdminProductsPage() {
 
   return (
     <div>
-      <div className="flex items-center justify-between mb-8">
-        <h1 className="text-3xl font-display font-bold">Products</h1>
-        <Button className="btn-accent gap-2" onClick={() => navigate('/admin/products/new')}>
-          <Plus className="h-4 w-4" /> Add Product
+      <div className="flex items-center justify-between mb-4 sm:mb-8 gap-2">
+        <h1 className="text-xl sm:text-3xl font-display font-bold">Products</h1>
+        <Button className="btn-accent gap-1.5 sm:gap-2 text-xs sm:text-sm" onClick={() => navigate('/admin/products/new')}>
+          <Plus className="h-3.5 w-3.5 sm:h-4 sm:w-4" /> Add Product
         </Button>
       </div>
 

@@ -307,11 +307,11 @@ export default function AdminSettingsPage() {
 
   return (
     <div>
-      <div className="flex items-center justify-between mb-8">
-        <h1 className="text-4xl lg:text-5xl font-display font-bold">Settings</h1>
-        <Button onClick={handleSaveSettings} disabled={isSaving} className="btn-accent gap-2">
-          <Save className="h-4 w-4" />
-          {isSaving ? 'Saving...' : 'Save Changes'}
+      <div className="flex items-center justify-between mb-4 sm:mb-8 gap-2">
+        <h1 className="text-xl sm:text-2xl lg:text-3xl font-display font-bold">Settings</h1>
+        <Button onClick={handleSaveSettings} disabled={isSaving} className="btn-accent gap-1.5 sm:gap-2 text-xs sm:text-sm">
+          <Save className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+          {isSaving ? 'Saving...' : 'Save'}
         </Button>
       </div>
 

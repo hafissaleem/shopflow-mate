@@ -7,11 +7,11 @@ export default function ProfilePage() {
   const { user } = useAuth();
 
   return (
-    <div className="bg-card rounded-xl p-6 shadow-sm">
-      <h2 className="text-xl font-semibold mb-6">Profile Information</h2>
+    <div className="bg-card rounded-xl p-4 sm:p-6 shadow-sm">
+      <h2 className="text-lg sm:text-xl font-semibold mb-4 sm:mb-6">Profile Information</h2>
       
-      <form className="space-y-6">
-        <div className="flex items-center gap-6">
+      <form className="space-y-4 sm:space-y-6">
+        <div className="flex items-center gap-4 sm:gap-6">
           <div className="h-20 w-20 rounded-full bg-accent/10 flex items-center justify-center">
             <span className="text-2xl font-bold text-accent">
               {user?.email?.charAt(0).toUpperCase()}

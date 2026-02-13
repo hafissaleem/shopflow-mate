@@ -126,12 +126,12 @@ export default function EditProductPage() {
   }
 
   return (
-    <div className="max-w-2xl">
-      <div className="flex items-center gap-4 mb-8">
-        <Button variant="ghost" size="icon" onClick={() => navigate('/admin/products')}>
-          <ArrowLeft className="h-5 w-5" />
+    <div className="max-w-2xl mx-auto">
+      <div className="flex items-center gap-2 sm:gap-4 mb-4 sm:mb-8">
+        <Button variant="ghost" size="icon" className="h-8 w-8 sm:h-10 sm:w-10" onClick={() => navigate('/admin/products')}>
+          <ArrowLeft className="h-4 w-4 sm:h-5 sm:w-5" />
         </Button>
-        <h1 className="text-3xl font-display font-bold">Edit Product</h1>
+        <h1 className="text-xl sm:text-3xl font-display font-bold">Edit Product</h1>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-6">
@@ -166,7 +166,7 @@ export default function EditProductPage() {
 
         <div className="bg-card rounded-xl border border-border p-6 space-y-4">
           <h2 className="text-lg font-semibold mb-4">Pricing & Inventory</h2>
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="space-y-2">
               <Label htmlFor="price">Price *</Label>
               <Input id="price" type="number" step="0.01" min="0" value={formData.price} onChange={(e) => handleChange('price', e.target.value)} required />
