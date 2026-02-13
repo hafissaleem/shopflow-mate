@@ -91,40 +91,16 @@ export function ShippingForm({
           />
         </div>
 
-        <div className="grid sm:grid-cols-3 gap-4">
-          <div>
-            <Label htmlFor="city">City *</Label>
-            <Input
-              id="city"
-              required
-              maxLength={100}
-              value={shippingAddress.city}
-              onChange={(e) => onAddressChange({ ...shippingAddress, city: e.target.value })}
-              className="mt-1.5"
-            />
-          </div>
-          <div>
-            <Label htmlFor="state">State *</Label>
-            <Input
-              id="state"
-              required
-              maxLength={100}
-              value={shippingAddress.state}
-              onChange={(e) => onAddressChange({ ...shippingAddress, state: e.target.value })}
-              className="mt-1.5"
-            />
-          </div>
-          <div>
-            <Label htmlFor="postal_code">PIN Code *</Label>
-            <Input
-              id="postal_code"
-              required
-              maxLength={10}
-              value={shippingAddress.postal_code}
-              onChange={(e) => onAddressChange({ ...shippingAddress, postal_code: e.target.value })}
-              className="mt-1.5"
-            />
-          </div>
+        <div>
+          <Label htmlFor="city">City *</Label>
+          <Input
+            id="city"
+            required
+            maxLength={100}
+            value={shippingAddress.city}
+            onChange={(e) => onAddressChange({ ...shippingAddress, city: e.target.value })}
+            className="mt-1.5"
+          />
         </div>
 
         <div>
