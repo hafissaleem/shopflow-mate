@@ -153,7 +153,7 @@ export default function AdminOrdersPage() {
 
   return (
     <div>
-      <h1 className="text-3xl font-display font-bold mb-8">Orders</h1>
+      <h1 className="text-xl sm:text-3xl font-display font-bold mb-4 sm:mb-8">Orders</h1>
 
       <div className="bg-card rounded-xl border border-border overflow-hidden">
         {isLoading ? (
@@ -234,13 +234,13 @@ export default function AdminOrdersPage() {
       </div>
 
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-        <DialogContent className="max-w-2xl">
+        <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle>Order Details - {selectedOrder?.order_number}</DialogTitle>
           </DialogHeader>
           {selectedOrder && (
             <div className="space-y-6">
-              <div className="grid grid-cols-2 gap-4 text-sm">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
                 <div>
                   <p className="text-muted-foreground">Customer</p>
                   <p className="font-medium">{getCustomerInfo(selectedOrder).name}</p>

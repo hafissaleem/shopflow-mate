@@ -133,22 +133,22 @@ export default function AuthPage() {
   return (
     <div className="min-h-screen flex">
       {/* Left Side - Form */}
-      <div className="flex-1 flex items-center justify-center p-8">
+      <div className="flex-1 flex items-center justify-center px-4 py-6 sm:p-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           className="w-full max-w-md"
         >
           {/* Back Link */}
-          <Link to="/" className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground mb-8">
+          <Link to="/" className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground mb-6 sm:mb-8">
             <ArrowLeft className="h-4 w-4" />
             Back to store
           </Link>
 
           {/* Logo */}
-          <div className="mb-8">
+          <div className="mb-6 sm:mb-8">
             <Link to="/" className="inline-flex items-center gap-2">
-               <span className="text-2xl font-display font-bold">Hasna Cycle Center</span>
+               <span className="text-xl sm:text-2xl font-display font-bold">Hasna Cycle Center</span>
             </Link>
           </div>
 

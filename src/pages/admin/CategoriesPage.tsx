@@ -295,7 +295,7 @@ export default function CategoriesPage() {
       {/* Header */}
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h1 className="text-3xl font-display font-bold">Categories</h1>
+          <h1 className="text-xl sm:text-3xl font-display font-bold">Categories</h1>
           <p className="text-muted-foreground mt-1">
             Manage your product categories
           </p>
